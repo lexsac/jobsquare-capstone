@@ -4,8 +4,8 @@ from flask import Flask, request, redirect, render_template, flash, g, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job
 from sqlalchemy.exc import IntegrityError
-from secrets import API_SECRET_KEY
 import requests
+from key import API_SECRET_KEY
 
 from forms import UserAddForm, UserEditForm, LoginForm
 
@@ -38,7 +38,7 @@ def get_jobs(location, company, category, experience_level):
                 "level": experience_level    
         })
     data = res.json()
-    return data
+    return data['results']
 
 
 
