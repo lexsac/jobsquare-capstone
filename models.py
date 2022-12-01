@@ -26,6 +26,8 @@ class User(db.Model):
     experience_level = db.Column(db.Text, nullable=True)
     company = db.Column(db.Text, nullable=True)
 
+    jobs_liked = db.relationship("Job", secondary="users_jobs", backref="users_liked")
+
 
     @property
     def full_name(self):
@@ -44,13 +46,30 @@ class Job(db.Model):
     description = db.Column(db.Text, nullable=False)
     location = db.Column(db.Text, nullable=False)
     category = db.Column(db.Text, nullable=False)
-    experience_level = db.Column(db.Integer, nullable=False)
-    company = db.Column(db.Integer, nullable=False)
+    experience_level = db.Column(db.Text, nullable=False)
+    company = db.Column(db.Text, nullable=False)
     created_at = db.Column(
         db.DateTime,
         nullable=False,
         default=datetime.datetime.now)
     landing_page_url = db.Column(db.Text, nullable=False)
+
+
+class UserJob(db.Model):
+    """List of jobs liked by users."""
+
+    __tablename__ = "users_jobs"
+
+    user_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('users.id', ondelete="cascade"),
+        primary_key=True
+    )
+    job_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('jobs.id', ondelete="cascade"),
+        primary_key=True
+    )
 
 
 def connect_db(app):
