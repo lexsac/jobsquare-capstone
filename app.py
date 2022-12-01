@@ -1,44 +1,99 @@
+import os
+
 from flask import Flask, request, redirect, render_template, flash, g, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job
 from sqlalchemy.exc import IntegrityError
 from secrets import API_SECRET_KEY
+import requests
 
 from forms import UserAddForm, UserEditForm, LoginForm
 
 
 CURR_USER_KEY = "curr_user"
+API_BASE_URL = "https://www.themuse.com/api/public/jobs"
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///job_board"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'ihaveasecret'
+def create_app():
+    app = Flask(__name__)
+
+    with app.app_context():
+        connect_db(app)
+        toolbar = DebugToolbarExtension(app)
+        app.config['SQLALCHEMY_DATABASE_URI'] = (
+            os.environ.get('DATABASE_URL', 'postgresql:///warbler'))
+
+        app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///job_board"
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        app.config['SECRET_KEY'] = 'ihaveasecret'
+        toolbar = DebugToolbarExtension(app)
+
+    return app
+
+create_app()
+
+# Get DB_URI from environ variable (useful for production/testing) or,
+# if not set there, use development local db.
+# app.config['SQLALCHEMY_DATABASE_URI'] = (
+#     os.environ.get('DATABASE_URL', 'postgresql:///warbler'))
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///job_board"
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SECRET_KEY'] = 'ihaveasecret'
+# toolbar = DebugToolbarExtension(app)
 
 # Having the Debug Toolbar show redirects explicitly is often useful;
 # however, if you want to turn it off, you can uncomment this line:
 #
 # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
-connect_db(app)
-db.create_all
 
+def get_jobs(location, company, category, experience_level):
+    res = requests.get(f"{API_BASE_URL}?page=1",
+        params={"key": API_SECRET_KEY,
+                "location": location,
+                "company": company,
+                "category": category,
+                "level": experience_level    
+        })
+    data = res.json()
+    return data
+
+##############################################################################
+# Homepage and error pages
 
 
 @app.route('/')
-def root():
-    """Show recent list of jobs, most-recent first."""
+def homepage():
+    """Show homepage:
 
-    jobs = Job.query.order_by(Job.created_at.desc()).limit(10).all()
-    return render_template("jobs/homepage.html", jobs=jobs)
+    - anon users: no messages
+    - logged in: 100 most recent messages of followed_users
+    """
+
+    if g.user:
+        
+        location = g.user.location
+        company = g.user.company
+        category = g.user.category
+        experience_level = g.user.experience_level
+
+        jobs = get_jobs(location, company, category, experience_level)
+
+        return render_template('home.html', jobs=jobs)
+
+    else:
+        return render_template('home-anon.html')
 
 
-# @app.errorhandler(404)
-# def page_not_found(e):
-#     """Show 404 NOT FOUND page."""
+@app.errorhandler(404)
+def page_not_found(e):
+    """404 NOT FOUND page."""
 
-#     return render_template('404.html'), 404
+    return render_template('404.html'), 404
+
+
 
 
 ##############################################################################

@@ -12,9 +12,9 @@ class UserAddForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
     location = SelectField('Location', choices=[('New York, NY', 'New York, NY'), ('Los Angeles, CA', 'Los Angeles, CA')])
-    category = SelectField('Category', choices=[('Software Engineering', 'Software Engineering'), ('Product Strategy', 'Product Strategy')])
+    category = SelectField('Category', choices=[('Software Engineering', 'Software Engineering'), ('Product Strategy', 'Product Strategy'), ('Business Operations', 'Business Operations')])
     experience_level = SelectField('Experience Level', choices=[('Entry Level', 'Entry Level'), ('Mid Level', 'Mid Level')])
-    company = SelectField('Company', choices=[('Google', 'Google'), ('Google', 'Google')])
+    company = SelectField('Company', choices=[('Google', 'Google'), ('Apple', 'Apple')])
 
 
 class UserEditForm(FlaskForm):
