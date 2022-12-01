@@ -1,6 +1,12 @@
-from flask import Flask, request, redirect, render_template, flash
+from flask import Flask, request, redirect, render_template, flash, g, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job
+from sqlalchemy.exc import IntegrityError
+
+from forms import UserAddForm, UserEditForm, LoginForm
+
+
+CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///job_board"
@@ -17,94 +23,112 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all
 
-@app.route('/')
-def root():
-    """Show recent list of jobs, most-recent first."""
-
-    jobs = Job.query.order_by(Job.created_at.desc()).limit(10).all()
-    return render_template("jobs/homepage.html", jobs=jobs)
 
 
-@app.errorhandler(404)
-def page_not_found(e):
-    """Show 404 NOT FOUND page."""
+# @app.route('/')
+# def root():
+#     """Show recent list of jobs, most-recent first."""
 
-    return render_template('404.html'), 404
+#     jobs = Job.query.order_by(Job.created_at.desc()).limit(10).all()
+#     return render_template("jobs/homepage.html", jobs=jobs)
+
+
+# @app.errorhandler(404)
+# def page_not_found(e):
+#     """Show 404 NOT FOUND page."""
+
+#     return render_template('404.html'), 404
 
 
 ##############################################################################
-# User route
+# User signup/login/logout
 
-@app.route('/users')
-def users_index():
-    """Show a page with info on all users"""
+@app.before_request
+def add_user_to_g():
+    """If we're logged in, add curr user to Flask global."""
 
-    users = User.query.order_by(User.last_name, User.first_name).all()
-    return render_template('users/index.html', users=users)
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
 
-
-@app.route('/users/new', methods=["GET"])
-def users_new_form():
-    """Show a form to create a new user"""
-
-    return render_template('users/new.html')
+    else:
+        g.user = None
 
 
-@app.route("/users/new", methods=["POST"])
-def users_new():
-    """Handle form submission for creating a new user"""
+def do_login(user):
+    """Log in user."""
 
-    new_user = User(
-        first_name=request.form['first_name'],
-        last_name=request.form['last_name'],
-        image_url=request.form['image_url'] or None)
-
-    db.session.add(new_user)
-    db.session.commit()
-    flash(f"User {new_user.full_name} added.")
-
-    return redirect("/users")
+    session[CURR_USER_KEY] = user.id
 
 
-@app.route('/users/<int:user_id>')
-def users_show(user_id):
-    """Show a page with info on a specific user"""
+def do_logout():
+    """Logout user."""
 
-    user = User.query.get_or_404(user_id)
-    return render_template('users/show.html', user=user)
-
-
-@app.route('/users/<int:user_id>/edit')
-def users_edit(user_id):
-    """Show a form to edit an existing user"""
-
-    user = User.query.get_or_404(user_id)
-    return render_template('users/edit.html', user=user)
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
 
 
-@app.route('/users/<int:user_id>/edit', methods=["POST"])
-def users_update(user_id):
-    """Handle form submission for updating an existing user"""
+@app.route('/signup', methods=["GET", "POST"])
+def signup():
+    """Handle user signup.
 
-    user = User.query.get_or_404(user_id)
-    user.first_name = request.form['first_name']
-    user.last_name = request.form['last_name']
-    user.image_url = request.form['image_url']
+    Create new user and add to DB. Redirect to home page.
 
-    db.session.add(user)
-    db.session.commit()
-    flash(f"User {user.full_name} edited.")
+    If form not valid, present form.
 
-    return redirect("/users")
+    If the there already is a user with that username: flash message
+    and re-present form.
+    """
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+    form = UserAddForm()
+
+    if form.validate_on_submit():
+        try:
+            user = User.signup(
+                username=form.username.data,
+                password=form.password.data,
+                email=form.email.data,
+                image_url=form.image_url.data or User.image_url.default.arg,
+            )
+            db.session.commit()
+
+        except IntegrityError as e:
+            flash("Username already taken", 'danger')
+            return render_template('users/signup.html', form=form)
+
+        do_login(user)
+
+        return redirect("/")
+
+    else:
+        return render_template('users/signup.html', form=form)
 
 
-@app.route('/users/<int:user_id>/delete', methods=["POST"])
-def users_destroy(user_id):
-    """Handle form submission for deleting an existing user"""
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    """Handle user login."""
 
-    user = User.query.get_or_404(user_id)
-    db.session.delete(user)
-    db.session.commit()
-    flash(f"User {user.full_name} deleted.")
+    form = LoginForm()
 
-    return redirect("/users")
+    if form.validate_on_submit():
+        user = User.authenticate(form.username.data,
+                                 form.password.data)
+
+        if user:
+            do_login(user)
+            flash(f"Hello, {user.username}!", "success")
+            return redirect("/")
+
+        flash("Invalid credentials.", 'danger')
+
+    return render_template('users/login.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    """Handle logout of user."""
+
+    do_logout()
+
+    flash("You have successfully logged out.", 'success')
+    return redirect("/login")
