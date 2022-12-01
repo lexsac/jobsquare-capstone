@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, render_template, flash, g, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job
 from sqlalchemy.exc import IntegrityError
+from secrets import API_SECRET_KEY
 
 from forms import UserAddForm, UserEditForm, LoginForm
 
