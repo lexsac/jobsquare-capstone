@@ -25,12 +25,12 @@ db.create_all
 
 
 
-# @app.route('/')
-# def root():
-#     """Show recent list of jobs, most-recent first."""
+@app.route('/')
+def root():
+    """Show recent list of jobs, most-recent first."""
 
-#     jobs = Job.query.order_by(Job.created_at.desc()).limit(10).all()
-#     return render_template("jobs/homepage.html", jobs=jobs)
+    jobs = Job.query.order_by(Job.created_at.desc()).limit(10).all()
+    return render_template("jobs/homepage.html", jobs=jobs)
 
 
 # @app.errorhandler(404)
