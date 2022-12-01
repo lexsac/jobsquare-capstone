@@ -4,7 +4,7 @@ from flask import Flask, request, redirect, render_template, flash, g, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job
 from sqlalchemy.exc import IntegrityError
-# from secrets import API_SECRET_KEY
+from secrets import API_SECRET_KEY
 import requests
 
 from forms import UserAddForm, UserEditForm, LoginForm
@@ -12,7 +12,6 @@ from forms import UserAddForm, UserEditForm, LoginForm
 
 CURR_USER_KEY = "curr_user"
 API_BASE_URL = "https://www.themuse.com/api/public/jobs"
-API_SECRET_KEY = '091f50b57d1939bd17876f602af0e0da9b77ea17c2925e85ebd8398f17ada72f'
 
 app = Flask(__name__)
 
