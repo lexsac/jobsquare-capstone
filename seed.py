@@ -56,3 +56,10 @@ db.session.commit()
 db.session.add(uj1)
 db.session.add(uj2)
 db.session.commit()
+
+
+# with open('generator/jobs.csv') as jobs:
+#     data = 
+#     for job in jobs:
+#         Job(name="")
+        

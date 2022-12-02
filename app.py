@@ -6,12 +6,10 @@ from models import db, connect_db, User, Job
 from sqlalchemy.exc import IntegrityError
 import requests
 from key import API_SECRET_KEY
-
 from forms import UserAddForm, UserEditForm, LoginForm
 
-
-CURR_USER_KEY = "curr_user"
 API_BASE_URL = "https://www.themuse.com/api/public/jobs"
+CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 

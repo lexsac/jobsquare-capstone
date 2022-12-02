@@ -3,10 +3,13 @@
   <div class="row">
 
     <div class="col-lg-6 col-md-8 col-sm-12">
-      <div class="list-group" id="messages">
+      <div class="list-group" id="jobs">
         {% for job in jobs %}
           <h2>{{ job.name }}</h2>
-          <p>Company: {{ job.company.name }}</p>
+          <p>At {{ job.company.name }} - {{ job.locations[0].name }}</p>
+          <p>Posted on {{ job.publication_date }}</p>
+          <button>Apply on company site</button>
+          <button>View job</button>
         {% endfor %}
       </div>
     </div>
