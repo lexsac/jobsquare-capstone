@@ -144,6 +144,8 @@ def logout():
 
 @app.route('/users/likes', methods=["GET"])
 def show_likes(user_id):
+    """Show liked jobs for current user."""
+
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
@@ -228,7 +230,7 @@ def edit_profile():
 
 @app.route('/jobs/<int:job_id>', methods=["GET"])
 def jobs_show(job_id):
-    """Show a job."""
+    """Show a job's details."""
 
     job = Job.query.get_or_404(job_id)
     return render_template('jobs/detail.html', job=job)
@@ -247,16 +249,19 @@ def homepage():
 
     if g.user:
         
-        location = g.user.location
-        company = g.user.company
-        category = g.user.category
-        experience_level = g.user.experience_level
+        # location = g.user.location
+        # company = g.user.company
+        # category = g.user.category
+        # experience_level = g.user.experience_level
 
-        jobs = get_jobs(location, company, category, experience_level)
+        # jobs = get_jobs(location, company, category, experience_level)
+
+        jobs = Job.query.all()
 
         return render_template('home.html', jobs=jobs)
 
     else:
+
         return render_template('home-anon.html')
 
 
