@@ -58,8 +58,7 @@ db.session.add(uj2)
 db.session.commit()
 
 
-# with open('generator/jobs.csv') as jobs:
-#     data = 
-#     for job in jobs:
-#         Job(name="")
+with open('generator/jobs.csv') as jobs:
+    for job in jobs:
+        print(job)
         

@@ -138,9 +138,104 @@ def logout():
     flash("You have successfully logged out.", 'success')
     return redirect("/login")
 
+
+##############################################################################
+# General user routes:
+
+@app.route('/users/likes', methods=["GET"])
+def show_likes(user_id):
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    user = User.query.get_or_404(user_id)
+    return render_template('users/likes.html', user=user, likes=user.jobs_liked)
+
+
+# @app.route('/jobs/<int:job_id>/like', methods=['POST'])
+# def add_like(job_id):
+#     """Toggle a liked job for the currently-logged-in user."""
+
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
+
+#     liked_job = Job.query.get_or_404(job_id)
+#     if liked_job.user_id == g.user.id:
+#         return abort(403)
+
+#     user_likes = g.user.likes
+
+#     if liked_job in user_likes:
+#         g.user.likes = [like for like in user_likes if like != liked_message]
+#     else:
+#         g.user.likes.append(liked_message)
+
+#     db.session.commit()
+
+#     return redirect("/")
+
+
+@app.route('/users/profile', methods=["GET", "POST"])
+def edit_profile():
+    """Update profile for current user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    user = g.user
+    form = UserEditForm(obj=user)
+
+    if form.validate_on_submit():
+        if User.authenticate(user.username, form.password.data):
+            first_name= form.first_name.data,
+            last_name= form.last_name.data,
+            email=form.email.data,
+            username=form.username.data,
+            password=form.password.data,
+            location = form.location.data,
+            category = form.category.data,
+            experience_level = form.experience_level.data,
+            company = form.company.data
+
+            db.session.commit()
+            return redirect("/")
+
+        flash("Wrong password, please try again.", 'danger')
+
+    return render_template('users/edit.html', form=form, user_id=user.id)
+
+
+# @app.route('/users/delete', methods=["POST"])
+# def delete_user():
+#     """Delete user."""
+
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
+
+#     do_logout()
+
+#     db.session.delete(g.user)
+#     db.session.commit()
+
+#     return redirect("/signup")
+
+
+##############################################################################
+# Jobs routes:
+
+@app.route('/jobs/<int:job_id>', methods=["GET"])
+def jobs_show(job_id):
+    """Show a job."""
+
+    job = Job.query.get_or_404(job_id)
+    return render_template('jobs/detail.html', job=job)
+
+
 ##############################################################################
 # Homepage and error pages
-
 
 @app.route('/')
 def homepage():
