@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, redirect, render_template, flash, g, session
+from flask import Flask, request, redirect, render_template, flash, g, session, current_app
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job
 from sqlalchemy.exc import IntegrityError
@@ -12,6 +12,7 @@ API_BASE_URL = "https://www.themuse.com/api/public/jobs"
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
+
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
@@ -27,16 +28,16 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 
-def get_jobs(location, company, category, experience_level):
-    res = requests.get(f"{API_BASE_URL}?page=1",
-        params={"key": API_SECRET_KEY,
-                "location": location,
-                "company": company,
-                "category": category,
-                "level": experience_level    
-        })
-    data = res.json()
-    return data['results']
+# def get_jobs(location, company, category, experience_level):
+#     res = requests.get(f"{API_BASE_URL}?page=1",
+#         params={"key": API_SECRET_KEY,
+#                 "location": location,
+#                 "company": company,
+#                 "category": category,
+#                 "level": experience_level    
+#         })
+#     data = res.json()
+#     return data['results']
 
 
 
