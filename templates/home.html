@@ -9,6 +9,9 @@
           <p>At {{ job.company }} - {{ job.location }}</p>
           <button>Apply on company site</button>
           <button>View job</button>
+          <form method="POST" action="/jobs/{{ job.id }}/like">
+            <button><3</button>
+          </form>
         {% endfor %}
       </div>
     </div>

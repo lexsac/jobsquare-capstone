@@ -28,7 +28,7 @@ class User(db.Model):
     experience_level = db.Column(db.Text, nullable=True)
     company = db.Column(db.Text, nullable=True)
 
-    jobs_liked = db.relationship("Job", secondary="users_jobs", backref="users_liked")
+    likes = db.relationship("Job", secondary="users_jobs", backref="users_liked")
 
     @classmethod
     def signup(cls, first_name, last_name, email, username, password, location, category, experience_level, company):

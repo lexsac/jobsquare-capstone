@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, redirect, render_template, flash, g, session, current_app
+from flask import Flask, request, redirect, render_template, flash, g, session, current_app, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job
 from sqlalchemy.exc import IntegrityError
@@ -155,28 +155,25 @@ def show_likes(user_id):
     return render_template('users/likes.html', user=user, likes=user.jobs_liked)
 
 
-# @app.route('/jobs/<int:job_id>/like', methods=['POST'])
-# def add_like(job_id):
-#     """Toggle a liked job for the currently-logged-in user."""
+@app.route('/jobs/<int:job_id>/like', methods=['POST'])
+def add_like(job_id):
+    """Toggle a liked job for the currently-logged-in user."""
 
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
-#     liked_job = Job.query.get_or_404(job_id)
-#     if liked_job.user_id == g.user.id:
-#         return abort(403)
+    liked_job = Job.query.get_or_404(job_id)
+    user_likes = g.user.likes
 
-#     user_likes = g.user.likes
+    if liked_job in user_likes:
+        g.user.likes = [like for like in user_likes if like != liked_job]
+    else:
+        g.user.likes.append(liked_job)
 
-#     if liked_job in user_likes:
-#         g.user.likes = [like for like in user_likes if like != liked_message]
-#     else:
-#         g.user.likes.append(liked_message)
+    db.session.commit()
 
-#     db.session.commit()
-
-#     return redirect("/")
+    return redirect("/")
 
 
 @app.route('/users/profile', methods=["GET", "POST"])

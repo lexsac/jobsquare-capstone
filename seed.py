@@ -17,7 +17,7 @@ with app.app_context():
 def get_jobs(start_page_num, end_page_num):
 
     for page_num in range(start_page_num, end_page_num):
-        response = requests.get(f"{API_BASE_URL}?page={page_num}", params={"key": API_SECRET_KEY},{}).json()
+        response = requests.get(f"{API_BASE_URL}?page={page_num}", params={"key": API_SECRET_KEY}).json()
         
         for job_info in response['results']:
             job_list.append([job_info['name'], job_info['contents'], job_info['locations'][0]['name'], job_info['categories'][0]['name'], job_info['levels'][0]['name'], job_info['company']['name'], job_info['refs']['landing_page']])
