@@ -143,40 +143,19 @@ def logout():
 ##############################################################################
 # General user routes:
 
-@app.route('/users/likes', methods=["GET"])
-def show_likes(user_id):
+@app.route('/likes', methods=["GET"])
+def show_likes():
     """Show liked jobs for current user."""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    user = User.query.get_or_404(user_id)
-    return render_template('users/likes.html', user=user, likes=user.jobs_liked)
+    user = User.query.get_or_404(g.user.id)
+    return render_template('users/likes.html', user=user, likes=user.likes)
 
 
-@app.route('/jobs/<int:job_id>/like', methods=['POST'])
-def add_like(job_id):
-    """Toggle a liked job for the currently-logged-in user."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    liked_job = Job.query.get_or_404(job_id)
-    user_likes = g.user.likes
-
-    if liked_job in user_likes:
-        g.user.likes = [like for like in user_likes if like != liked_job]
-    else:
-        g.user.likes.append(liked_job)
-
-    db.session.commit()
-
-    return redirect("/")
-
-
-@app.route('/users/profile', methods=["GET", "POST"])
+@app.route('/profile', methods=["GET", "POST"])
 def edit_profile():
     """Update profile for current user."""
 
@@ -232,6 +211,26 @@ def jobs_show(job_id):
     job = Job.query.get_or_404(job_id)
     return render_template('jobs/detail.html', job=job)
 
+
+@app.route('/jobs/<int:job_id>/like', methods=['POST'])
+def add_like(job_id):
+    """Toggle a liked job for the currently-logged-in user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    liked_job = Job.query.get_or_404(job_id)
+    user_likes = g.user.likes
+
+    if liked_job in user_likes:
+        g.user.likes = [like for like in user_likes if like != liked_job]
+    else:
+        g.user.likes.append(liked_job)
+
+    db.session.commit()
+
+    return redirect("/")
 
 ##############################################################################
 # Homepage and error pages
