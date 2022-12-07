@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <div class="col-sm-9">
-    <div class="row">
-        <ul class="list-group" id="messages">
+  <div>
+    <div>
+        <ul>
           {% for job in likes %}
           <a href="/jobs/{{ job.id }}"><h2>{{ job.name }}</h2></a>
           <p>At {{ job.company }} - {{ job.location }}</p>

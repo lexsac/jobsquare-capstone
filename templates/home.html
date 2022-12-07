@@ -1,20 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="row">
 
-    <div class="col-lg-6 col-md-8 col-sm-12">
-      <div class="list-group" id="jobs">
-        {% for job in jobs %}
-          <a href="/jobs/{{ job.id }}"><h2>{{ job.name }}</h2></a>
-          <p>At {{ job.company }} - {{ job.location }}</p>
-          <button>Apply on company site</button>
-          <button>View job</button>
-          <form method="POST" action="/jobs/{{ job.id }}/like">
-            <button><3</button>
-          </form>
-        {% endfor %}
-      </div>
+  <div>
+    <div>
+      {% for job in jobs %}
+        <a href="/jobs/{{ job.id }}"><h2>{{ job.name }}</h2></a>
+        <p>At {{ job.company }} - {{ job.location }}</p>
+        <button>Apply on company site</button>
+        <button>View job</button>
+        <form method="POST" action="/jobs/{{ job.id }}/like">
+          <button><3</button>
+        </form>
+      {% endfor %}
     </div>
-
   </div>
+  
 {% endblock %}

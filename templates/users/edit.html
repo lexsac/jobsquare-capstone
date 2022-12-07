@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
-  <div class="row justify-content-md-center">
-    <div class="col-md-4">
-      <h2 class="join-message">Edit Your Profile.</h2>
+  <div>
+    <div>
+      <h2>Edit Your Profile.</h2>
       <form method="POST" id="user_form">
         {{ form.hidden_tag() }}
 
@@ -25,9 +24,9 @@
         {% endif %}
         {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
 
-        <div class="edit-btn-area">
-          <button class="btn btn-success">Edit this user!</button>
-          <a href="/users/{{ user_id }}" class="btn btn-outline-secondary">Cancel</a>
+        <div>
+          <button>Edit this user!</button>
+          <a href="/users/{{ user_id }}">Cancel</a>
         </div>
       </form>
     </div>
