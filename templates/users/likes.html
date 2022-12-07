@@ -5,7 +5,7 @@
     <div class="card">
       <div class="vstack gap=2">
         <ul>
-        {% for job in likes %}
+        {% for job in likes if jobs != '' %}
           <div class="job-box">
             <a href="/jobs/{{ job.id }}"><h3>{{ job.name }}</h3></a>
             <p>At {{ job.company }} - {{ job.location }}</p>
