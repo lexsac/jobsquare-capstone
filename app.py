@@ -28,19 +28,6 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 
-# def get_jobs(location, company, category, experience_level):
-#     res = requests.get(f"{API_BASE_URL}?page=1",
-#         params={"key": API_SECRET_KEY,
-#                 "location": location,
-#                 "company": company,
-#                 "category": category,
-#                 "level": experience_level    
-#         })
-#     data = res.json()
-#     return data['results']
-
-
-
 ##############################################################################
 # User signup/login/logout
 
@@ -240,24 +227,15 @@ def homepage():
     """Show homepage:
 
     - anon users: no messages
-    - logged in: 100 most recent messages of followed_users
+    - logged in: shows jobs that match preference criteria
     """
 
     if g.user:
-        
-        # location = g.user.location
-        # company = g.user.company
-        # category = g.user.category
-        # experience_level = g.user.experience_level
-
-        # jobs = get_jobs(location, company, category, experience_level)
-
         jobs = Job.query.all()
 
         return render_template('home.html', jobs=jobs)
 
     else:
-
         return render_template('home-anon.html')
 
 
