@@ -3,7 +3,7 @@
 
   <div class="container">
     <div>
-      <h2>Edit Your Profile.</h2>
+      <h2>Edit Your Profile</h2>
       <form method="POST" id="user_form">
         {{ form.hidden_tag() }}
 
@@ -11,7 +11,7 @@
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
-          {{ field(placeholder=field.label.text, class="form-control") }}
+          {{ field.label(class="form-field-label") }}{{ field(class="form-field") }}
         {% endfor %}
 
         <p>To confirm changes, enter your password:</p>

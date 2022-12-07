@@ -4,7 +4,7 @@
 
   <div class="container">
     <div>
-      <h2>Join Job Board today.</h2>
+      <h2>Join Job Board today</h2>
       <form method="POST">
         {{ form.hidden_tag() }}
 
@@ -12,10 +12,10 @@
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
-          {{ field(placeholder=field.label.text, class="form-control") }}
+          {{ field.label(class="form-field-label") }}{{ field(class="form-field") }}
         {% endfor %}
 
-        <button>Sign me up!</button>
+        <a href="/"><button class="btn btn-primary">Sign me up!</button></a>
       </form>
     </div>
   </div>
