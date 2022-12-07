@@ -22,11 +22,11 @@ class User(db.Model):
     created_at = db.Column(
         db.DateTime,
         nullable=False,
-        default=datetime.datetime.now)
-    location = db.Column(db.Text, nullable=True)
-    category = db.Column(db.Text, nullable=True)
-    experience_level = db.Column(db.Text, nullable=True)
-    company = db.Column(db.Text, nullable=True)
+        default=datetime.datetime.now) 
+    location = db.Column(db.Text, nullable=False)
+    category = db.Column(db.Text, nullable=False)
+    experience_level = db.Column(db.Text, nullable=False)
+    company = db.Column(db.Text, nullable=False)
 
     likes = db.relationship("Job", secondary="users_jobs", backref="users_liked")
 
