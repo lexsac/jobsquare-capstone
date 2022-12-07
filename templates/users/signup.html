@@ -2,22 +2,22 @@
 {% block body_class %}onboarding{% endblock %}
 {% block content %}
 
-  <div>
-  <div>
-    <h2>Join Job Board today.</h2>
-    <form method="POST">
-      {{ form.hidden_tag() }}
+  <div class="container">
+    <div>
+      <h2>Join Job Board today.</h2>
+      <form method="POST">
+        {{ form.hidden_tag() }}
 
-      {% for field in form if field.widget.input_type != 'hidden' %}
-        {% for error in field.errors %}
-          <span class="text-danger">{{ error }}</span>
+        {% for field in form if field.widget.input_type != 'hidden' %}
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {{ field(placeholder=field.label.text, class="form-control") }}
         {% endfor %}
-        {{ field(placeholder=field.label.text, class="form-control") }}
-      {% endfor %}
 
-      <button>Sign me up!</button>
-    </form>
+        <button>Sign me up!</button>
+      </form>
+    </div>
   </div>
-</div>
 
 {% endblock %}

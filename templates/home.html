@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <div>
-    <div>
-      {% for job in jobs %}
-        <a href="/jobs/{{ job.id }}"><h2>{{ job.name }}</h2></a>
-        <p>At {{ job.company }} - {{ job.location }}</p>
-        <button>Apply on company site</button>
-        <button>View job</button>
-        <form method="POST" action="/jobs/{{ job.id }}/like">
-          <button><3</button>
-        </form>
-      {% endfor %}
+  <div class="container">
+    <div class="card">
+      <div class="vstack gap=2">
+        {% for job in jobs %}
+          <div class="job-box">
+            <a href="/jobs/{{ job.id }}">
+              <h3>{{ job.name }}</h3>
+            </a>
+            <p>At {{ job.company }} - {{ job.location }}</p>
+            <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-secondary">Apply</button></a>
+            <a href="/jobs/{{ job.id }}"><button class="btn btn-primary">View job</button></a>
+              <i class="fa-solid fa-heart">
+                <form method="POST" action="/jobs/{{ job.id }}/like"></form>
+              </i>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
     </div>
   </div>
   
