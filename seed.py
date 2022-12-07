@@ -41,6 +41,28 @@ for num in range(num_of_jobs):
         db.session.add(co)
         db.session.commit()
 
+j = Job(name='test',
+        description='test',
+        location_id=1,
+        category_id=1,
+        experience_level_id=1,
+        company_id=1,
+        landing_page_url="themuse.com")
+
+j2 = Job(name='shouldnt show',
+        description='test',
+        location_id=1,
+        category_id=1,
+        experience_level_id=2,
+        company_id=1,
+        landing_page_url="themuse.com")
+
+with app.app_context():     
+    db.session.add(j)
+    db.session.add(j2)
+    db.session.commit()
+
+
 # for num in range(num_of_jobs):
 #     j = Job(name=job_list[num][0],
 #             description='description',

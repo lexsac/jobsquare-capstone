@@ -159,10 +159,10 @@ def edit_profile():
             user.last_name = form.last_name.data,
             user.email =form.email.data,
             user.username = form.username.data,
-            user.location = form.location_id.data,
-            user.category = form.category_id.data,
-            user.experience_level = form.experience_level_id.data,
-            user.company = form.company_id.data
+            user.location_id = form.location_id.data,
+            user.category_id = form.category_id.data,
+            user.experience_level_id = form.experience_level_id.data,
+            user.company_id = form.company_id.data
 
             db.session.commit()
             return redirect("/")
@@ -231,7 +231,11 @@ def homepage():
     """
 
     if g.user:
-        jobs = Job.query.all()
+        jobs = Job.query.filter(Job.experience_level_id == g.user.experience_level_id, 
+                                Job.location_id == g.user.location_id,
+                                Job.category_id == g.user.category_id,
+                                Job.company_id == g.user.company_id,
+                                ).all()
 
         return render_template('home.html', jobs=jobs)
 
