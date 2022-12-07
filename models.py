@@ -9,7 +9,7 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
-    """Site user."""
+    """Site users."""
 
     __tablename__ = "users"
 
@@ -23,15 +23,27 @@ class User(db.Model):
         db.DateTime,
         nullable=False,
         default=datetime.datetime.now) 
-    location = db.Column(db.Text, nullable=False)
-    category = db.Column(db.Text, nullable=False)
-    experience_level = db.Column(db.Text, nullable=False)
-    company = db.Column(db.Text, nullable=False)
+    location_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('locations.id', ondelete="cascade")
+    )
+    category_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('categories.id', ondelete="cascade")
+    )
+    experience_level_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('experience_levels.id', ondelete="cascade")
+    )
+    company_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('companies.id', ondelete="cascade")
+    )
 
     likes = db.relationship("Job", secondary="users_jobs", backref="users_liked")
 
     @classmethod
-    def signup(cls, first_name, last_name, email, username, password, location, category, experience_level, company):
+    def signup(cls, first_name, last_name, email, username, password, location_id, category_id, experience_level_id, company_id):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -45,10 +57,10 @@ class User(db.Model):
             email=email,
             username=username,
             password=hashed_pwd,
-            location=location,
-            category=category,
-            experience_level=experience_level,
-            company=company
+            location_id=location_id,
+            category_id=category_id,
+            experience_level_id=experience_level_id,
+            company_id=company_id
         )
 
         db.session.add(user)
@@ -82,17 +94,29 @@ class User(db.Model):
 
 
 class Job(db.Model):
-    """Job post."""
+    """Job postings."""
 
     __tablename__ = "jobs"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    location = db.Column(db.Text, nullable=False)
-    category = db.Column(db.Text, nullable=False)
-    experience_level = db.Column(db.Text, nullable=False)
-    company = db.Column(db.Text, nullable=False)
+    location_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('locations.id', ondelete="cascade")
+    )
+    category_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('categories.id', ondelete="cascade")
+    )
+    experience_level_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('experience_levels.id', ondelete="cascade")
+    )
+    company_id = db.Column(
+        db.Integer, 
+        db.ForeignKey('companies.id', ondelete="cascade")
+    )
     created_at = db.Column(
         db.DateTime,
         nullable=False,
@@ -101,7 +125,7 @@ class Job(db.Model):
 
 
 class UserJob(db.Model):
-    """List of jobs liked by users."""
+    """Jobs liked by users."""
 
     __tablename__ = "users_jobs"
 
@@ -115,6 +139,41 @@ class UserJob(db.Model):
         db.ForeignKey('jobs.id', ondelete="cascade"),
         primary_key=True
     )
+
+
+class Location(db.Model):
+    """Locations."""
+
+    __tablename__ = "locations"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+
+class Category(db.Model):
+    """Categories."""
+
+    __tablename__ = "categories"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+
+class Experiencelevel(db.Model):
+    """Experience Levels."""
+
+    __tablename__ = "experience_levels"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+class Company(db.Model):
+    """Companies."""
+
+    __tablename__ = "companies"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
 
 
 def connect_db(app):

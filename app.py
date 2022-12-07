@@ -78,10 +78,10 @@ def signup():
                 email=form.email.data,
                 username=form.username.data,
                 password=form.password.data,
-                location = form.location.data,
-                category = form.category.data,
-                experience_level = form.experience_level.data,
-                company = form.company.data
+                location_id = form.location_id.data,
+                category_id = form.category_id.data,
+                experience_level_id = form.experience_level_id.data,
+                company_id = form.company_id.data
             )
             db.session.commit()
 
@@ -159,10 +159,10 @@ def edit_profile():
             user.last_name = form.last_name.data,
             user.email =form.email.data,
             user.username = form.username.data,
-            user.location = form.location.data,
-            user.category = form.category.data,
-            user.experience_level = form.experience_level.data,
-            user.company = form.company.data
+            user.location = form.location_id.data,
+            user.category = form.category_id.data,
+            user.experience_level = form.experience_level_id.data,
+            user.company = form.company_id.data
 
             db.session.commit()
             return redirect("/")

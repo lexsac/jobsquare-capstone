@@ -1,6 +1,6 @@
 """Seed file to make sample data for db."""
 
-from models import User, Job, UserJob, db
+from models import User, Job, UserJob, db, Location, Category, Experiencelevel, Company
 from app import app
 import requests
 from key import API_SECRET_KEY
@@ -26,49 +26,32 @@ get_jobs(1,10)
 num_of_jobs = len(job_list)
 
 for num in range(num_of_jobs):
-    j = Job(name=job_list[num][0],
-            description=job_list[num][1],
-            location=job_list[num][2],
-            category=job_list[num][3],
-            experience_level=job_list[num][4],
-            company=job_list[num][5],
-            landing_page_url=job_list[num][6] 
-            )
-    with app.app_context():     
-        db.session.add(j)
+    with app.app_context(): 
+        if (Location.query.filter_by(name=job_list[num][2]).first() == None):
+            l = Location(name=job_list[num][2])
+        if (Category.query.filter_by(name=job_list[num][3]).first() == None):
+            ca = Category(name=job_list[num][3])
+        if (Experiencelevel.query.filter_by(name=job_list[num][4]).first() == None):
+            e = Experiencelevel(name=job_list[num][4])
+        if (Company.query.filter_by(name=job_list[num][5]).first() == None):
+            co = Company(name=job_list[num][5])
+        db.session.add(l)
+        db.session.add(ca)
+        db.session.add(e)
+        db.session.add(co)
         db.session.commit()
 
-# Create sample users and jobs
-u1 = User(first_name="Lexsa", 
-            last_name="Campbell", 
-            email="lexsa1234@aol.com", 
-            username="lexsa1234",
-            password="mia1234",
-            location="New York, NY",
-            category="Software Engineering",
-            experience_level="Entry Level",
-            company="Google"
-)
-u2 = User(first_name="Alex", 
-            last_name="Saralegui", 
-            email="alex1234@aol.com", 
-            username="alex1234",
-            password="dot1234",
-            location="New York, NY",
-            category="Product Strategy",
-            experience_level="Mid Level",
-            company="Comcast"
-)
+# for num in range(num_of_jobs):
+#     j = Job(name=job_list[num][0],
+#             description='description',
+#             # location_id=job_list[num][2],
+#             # category=job_list[num][3],
+#             # experience_level=job_list[num][4],
+#             # company=job_list[num][5],
+#             landing_page_url=job_list[num][6] 
+#             )
+#     with app.app_context():     
+#         db.session.add(j)
+#         db.session.commit()
 
 
-uj1 = UserJob(user_id=1, job_id=1)
-uj2 = UserJob(user_id=2, job_id=2)
-
-with app.app_context():     
-    db.session.add(u1)
-    db.session.add(u2)
-    db.session.commit()
-
-    db.session.add(uj1)
-    db.session.add(uj2)
-    db.session.commit()
