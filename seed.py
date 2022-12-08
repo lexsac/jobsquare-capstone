@@ -20,7 +20,7 @@ def get_jobs(start_page_num, end_page_num):
         response = requests.get(f"{API_BASE_URL}?page={page_num}", params={"key": API_SECRET_KEY}).json()
         
         for job_info in response['results']:
-            job_list.append([job_info['name'], job_info['contents'], job_info['locations'][0]['name'], job_info['categories'][0]['name'], job_info['levels'][0]['name'], job_info['company']['name'], job_info['refs']['landing_page']])
+            job_list.append([job_info['name'], job_info['contents'], job_info['locations'][0]['name'], 'filler for category data', job_info['levels'][0]['name'], job_info['company']['name'], job_info['refs']['landing_page']])
 
 get_jobs(1,10)
 num_of_jobs = len(job_list)
@@ -36,44 +36,46 @@ for num in range(num_of_jobs):
         if (Company.query.filter_by(name=job_list[num][5]).first() == None):
             co = Company(name=job_list[num][5])
         db.session.add(l)
-        db.session.add(ca)
+        # db.session.add(ca)
         db.session.add(e)
         db.session.add(co)
         db.session.commit()
 
-j = Job(name='test',
-        description='test',
-        location_id=1,
-        category_id=1,
-        experience_level_id=1,
-        company_id=1,
-        landing_page_url="themuse.com")
 
-j2 = Job(name='shouldnt show',
-        description='test',
-        location_id=1,
-        category_id=1,
-        experience_level_id=2,
-        company_id=1,
-        landing_page_url="themuse.com")
-
-with app.app_context():     
-    db.session.add(j)
-    db.session.add(j2)
-    db.session.commit()
+for num in range(num_of_jobs):
+    j = Job(name=job_list[num][0],
+            description=job_list[num][1],
+            location=job_list[num][2],
+            category='filler text',
+            experience_level=job_list[num][4],
+            company=job_list[num][5],
+            landing_page_url=job_list[num][6] 
+            )
+    with app.app_context():     
+        db.session.add(j)
+        db.session.commit()
 
 
-# for num in range(num_of_jobs):
-#     j = Job(name=job_list[num][0],
-#             description='description',
-#             # location_id=job_list[num][2],
-#             # category=job_list[num][3],
-#             # experience_level=job_list[num][4],
-#             # company=job_list[num][5],
-#             landing_page_url=job_list[num][6] 
-#             )
-#     with app.app_context():     
-#         db.session.add(j)
-#         db.session.commit()
+# j = Job(name='test',
+#         description='test',
+#         location_id=1,
+#         category_id=1,
+#         experience_level_id=1,
+#         company_id=1,
+#         landing_page_url="themuse.com")
+
+# j2 = Job(name='shouldnt show',
+#         description='test',
+#         location_id=1,
+#         category_id=1,
+#         experience_level_id=2,
+#         company_id=1,
+#         landing_page_url="themuse.com")
+
+# with app.app_context():     
+#     db.session.add(j)
+#     db.session.add(j2)
+#     db.session.commit()
+
 
 

@@ -23,27 +23,27 @@ class User(db.Model):
         db.DateTime,
         nullable=False,
         default=datetime.datetime.now) 
-    location_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('locations.id', ondelete="cascade")
+    location = db.Column(
+        db.Text, 
+        # db.ForeignKey('locations.id', ondelete="cascade")
     )
-    category_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('categories.id', ondelete="cascade")
+    category = db.Column(
+        db.Text, 
+        # db.ForeignKey('categories.id', ondelete="cascade")
     )
-    experience_level_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('experience_levels.id', ondelete="cascade")
+    experience_level = db.Column(
+        db.Text, 
+        # db.ForeignKey('experience_levels.id', ondelete="cascade")
     )
-    company_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('companies.id', ondelete="cascade")
+    company = db.Column(
+        db.Text, 
+        # db.ForeignKey('companies.id', ondelete="cascade")
     )
 
     likes = db.relationship("Job", secondary="users_jobs", backref="users_liked")
 
     @classmethod
-    def signup(cls, first_name, last_name, email, username, password, location_id, category_id, experience_level_id, company_id):
+    def signup(cls, first_name, last_name, email, username, password, location, category, experience_level, company):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -57,10 +57,10 @@ class User(db.Model):
             email=email,
             username=username,
             password=hashed_pwd,
-            location_id=location_id,
-            category_id=category_id,
-            experience_level_id=experience_level_id,
-            company_id=company_id
+            location=location,
+            category=category,
+            experience_level=experience_level,
+            company=company
         )
 
         db.session.add(user)
@@ -101,21 +101,21 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    location_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('locations.id', ondelete="cascade")
+    location = db.Column(
+        db.Text, 
+        # db.ForeignKey('locations.id', ondelete="cascade")
     )
-    category_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('categories.id', ondelete="cascade")
+    category = db.Column(
+        db.Text, 
+        # db.ForeignKey('categories.id', ondelete="cascade")
     )
-    experience_level_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('experience_levels.id', ondelete="cascade")
+    experience_level = db.Column(
+        db.Text, 
+        # db.ForeignKey('experience_levels.id', ondelete="cascade")
     )
-    company_id = db.Column(
-        db.Integer, 
-        db.ForeignKey('companies.id', ondelete="cascade")
+    company = db.Column(
+        db.Text, 
+        # db.ForeignKey('companies.id', ondelete="cascade")
     )
     created_at = db.Column(
         db.DateTime,

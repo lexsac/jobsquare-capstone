@@ -78,10 +78,10 @@ def signup():
                 email=form.email.data,
                 username=form.username.data,
                 password=form.password.data,
-                location_id = form.location_id.data,
-                category_id = form.category_id.data,
-                experience_level_id = form.experience_level_id.data,
-                company_id = form.company_id.data
+                location = form.location.data,
+                category = form.category.data,
+                experience_level = form.experience_level.data,
+                company = form.company.data
             )
             db.session.commit()
 
@@ -231,10 +231,10 @@ def homepage():
     """
 
     if g.user:
-        jobs = Job.query.filter(Job.experience_level_id == g.user.experience_level_id, 
-                                Job.location_id == g.user.location_id,
-                                Job.category_id == g.user.category_id,
-                                Job.company_id == g.user.company_id,
+        jobs = Job.query.filter(Job.experience_level == g.user.experience_level, 
+                                Job.location == g.user.location,
+                                Job.category == g.user.category,
+                                Job.company == g.user.company,
                                 ).all()
 
         return render_template('home.html', jobs=jobs)

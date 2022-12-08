@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SelectField, SearchField
 from wtforms.validators import DataRequired, Email, Length, Optional
+from models import Location, Company, Experiencelevel
+
+
 
 
 class UserAddForm(FlaskForm):
@@ -11,18 +14,11 @@ class UserAddForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
-    location_id = SelectField('Location', choices=[('1', '1'), ('2', '2')])
+    location = SearchField('Location')
+    category = SelectField('Category', choices=[('Software Engineering', 'Software Engineering')])
+    experience_level = SelectField('Experience Level', choices=[('Internship'), ('Entry Level'), ('Mid Level'), ('Senior Level')])
+    company = SelectField('Company', choices=[('Siemens', 'Siemens')])
     
-    # def edit_location(request, id):
-    # job_location = Job.query.get(id)
-    # form = UserAddForm(request.POST, obj=job_location)
-    # form.location.choices = [(l.id, l.name) for l in Location.query.order_by('name')]
-
-    category_id = SelectField('Category', choices=[('1', '1'), ('2', '2')])
-    experience_level_id = SelectField('Experience Level', choices=[('1', '1'), ('2', '2')])
-    company_id = SelectField('Company', choices=[('1', '1'), ('2', '2')])
-
-
 class UserEditForm(FlaskForm):
     """Form for editing users."""
 
@@ -31,10 +27,10 @@ class UserEditForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
-    location_id = SelectField('Location', choices=[('1', '1'), ('2', '2')])
-    category_id = SelectField('Category', choices=[('1', '1'), ('2', '2')])
-    experience_level_id = SelectField('Experience Level', choices=[('1', '1'), ('2', '2')])
-    company_id = SelectField('Company', choices=[('1', '1'), ('2', '2')])
+    location = SelectField('Location', choices=[('Lisbon, Portugal', 'Lisbon, Portugal')])
+    category = SelectField('Category', choices=[('Software Engineering', 'Software Engineering')])
+    experience_level = SelectField('Experience Level', choices=[('Entry Level', 'Entry Level')])
+    company = SelectField('Company', choices=[('Apple', 'Apple')])
 
 class LoginForm(FlaskForm):
     """Login form."""
