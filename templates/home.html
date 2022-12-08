@@ -16,8 +16,7 @@
                 <button class="btn">
                   {% if job.id in likes %}
                   <i class="fa-solid fa-heart"></i> 
-                  {% endif %}
-                  {% if job.id not in likes %}
+                  {% else %}
                   <i class="fa-regular fa-heart"></i> 
                   {% endif %}
                 </button>

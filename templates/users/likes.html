@@ -15,8 +15,7 @@
               <button class="btn btn-sm">
                 {% if job.id in liked_jobs %}
                 <i class="fa-solid fa-heart"></i> 
-                {% endif %}
-                {% if job.id not in liked_jobs %}
+                {% else %}
                 <i class="fa-regular fa-heart"></i> 
                 {% endif %}
               </button>
