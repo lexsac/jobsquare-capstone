@@ -49,10 +49,7 @@ with app.app_context():
 
     get_jobs(1,20)
 
-# locations = Location.query.all()
-# locations_list = []
-# for location in locations:
-#     locations_list.append((location.id, location.name))
+
 
 # def get_jobs(start_page_num, end_page_num):
 
