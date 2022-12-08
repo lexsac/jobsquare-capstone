@@ -4,8 +4,6 @@ from wtforms.validators import DataRequired, Email, Length, Optional
 from models import Location, Company, Experiencelevel
 
 
-
-
 class UserAddForm(FlaskForm):
     """Form for adding users."""
 
