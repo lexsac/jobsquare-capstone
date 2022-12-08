@@ -24,6 +24,6 @@ a h3 {
     text-decoration: none;
 }
 
-/* .fa-heart:hover {
-    color: red;
-} */
+.container-box {
+    margin-top: 2em;
+}

@@ -2,34 +2,21 @@
 {% block content %}
 
   <div class="container">
-    <div>
+    <div class="container-box">
       <h2>Edit Your Profile</h2>
       <form method="POST" id="user_form">
         {{ form.hidden_tag() }}
-
-        {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
+          {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
-          {{ field.label(class="form-label") }}
-          {{ field(class="form-control") }}
-        {% endfor %}
-
-        <!-- <p>To confirm changes, enter your password:</p>
-        {% if form.password.errors %}
-          {% for error in form.password.errors %}
-            <span class="text-danger">
-            {{ error }}
-          </span>
+          <div class="mb-3">
+            {{ field.label(class="form-label") }}
+            {{ field(class="form-control") }}
+          </div>
           {% endfor %}
-        {% endif %} -->
-        <!-- {{ form.password(placeholder="Enter your password to confirm", class="form-control") }} -->
-
       </form>
-      <a href="/signup"><button class="btn btn-primary">Edit this user!</button></a>
-      <form method="POST" action="/delete">
-        <button class="btn btn-light">Delete Profile</button>
-      </form>
+      <a href="/signup"><button class="btn btn-primary">Save Preferences</button></a>
     </div>
   </div>
 
