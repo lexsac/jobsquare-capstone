@@ -23,7 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
@@ -139,7 +139,9 @@ def show_likes():
         return redirect("/")
 
     user = User.query.get_or_404(g.user.id)
-    return render_template('users/likes.html', user=user, likes=user.likes)
+    liked_job_ids = [job.id for job in g.user.likes]
+
+    return render_template('users/likes.html', user=user, likes=user.likes, liked_jobs=liked_job_ids)
 
 
 @app.route('/profile', methods=["GET", "POST"])
@@ -159,10 +161,10 @@ def edit_profile():
             user.last_name = form.last_name.data,
             user.email =form.email.data,
             user.username = form.username.data,
-            user.location_id = form.location_id.data,
-            user.category_id = form.category_id.data,
-            user.experience_level_id = form.experience_level_id.data,
-            user.company_id = form.company_id.data
+            user.location = form.location.data,
+            user.category = form.category.data,
+            user.experience_level = form.experience_level.data,
+            user.company = form.company.data
 
             db.session.commit()
             return redirect("/")
@@ -172,20 +174,20 @@ def edit_profile():
     return render_template('users/edit.html', form=form, user_id=user.id)
 
 
-# @app.route('/users/delete', methods=["POST"])
-# def delete_user():
-#     """Delete user."""
+@app.route('/delete', methods=["POST"])
+def delete_user():
+    """Delete user."""
 
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
-#     do_logout()
+    do_logout()
 
-#     db.session.delete(g.user)
-#     db.session.commit()
+    db.session.delete(g.user)
+    db.session.commit()
 
-#     return redirect("/signup")
+    return redirect("/signup")
 
 
 ##############################################################################
@@ -233,11 +235,13 @@ def homepage():
     if g.user:
         jobs = Job.query.filter(Job.experience_level == g.user.experience_level, 
                                 Job.location == g.user.location,
-                                Job.category == g.user.category,
+                                # Job.category == g.user.category,
                                 Job.company == g.user.company,
                                 ).all()
+        
+        liked_job_ids = [job.id for job in g.user.likes]
 
-        return render_template('home.html', jobs=jobs)
+        return render_template('home.html', jobs=jobs, likes=liked_job_ids)
 
     else:
         return render_template('home-anon.html')

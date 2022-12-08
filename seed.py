@@ -22,7 +22,8 @@ def get_jobs(start_page_num, end_page_num):
         for job_info in response['results']:
             with app.app_context():
                 j = Job(name=job_info['name'],
-                    description=job_info['contents'],
+                    description = "filler text",
+                    # description=job_info['contents'],
                     location=job_info['locations'][0]['name'],
                     # category=job_info['categories'][0]['name'],
                     category = "filler text",

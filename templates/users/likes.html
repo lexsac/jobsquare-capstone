@@ -11,12 +11,16 @@
             <p>At {{ job.company }} - {{ job.location }}</p>
             <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-secondary">Apply</button></a>
             <a href="/jobs/{{ job.id }}"><button class="btn btn-primary">View job</button></a>
-            <!-- <form method="POST" action="/jobs/{{ job.id }}/like">
-              <button><3</button>
-            </form> -->
-            <i class="fa-solid fa-heart">
-              <form method="POST" action="/jobs/{{ job.id }}/like"></form>
-            </i>
+            <form method="POST" action="/jobs/{{ job.id }}/like">
+              <button class="btn btn-sm">
+                {% if job.id in liked_jobs %}
+                <i class="fa-solid fa-heart"></i> 
+                {% endif %}
+                {% if job.id not in liked_jobs %}
+                <i class="fa-regular fa-heart"></i> 
+                {% endif %}
+              </button>
+            </form> 
           </div>
         {% endfor %}
         </ul>
