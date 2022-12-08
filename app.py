@@ -174,22 +174,6 @@ def edit_profile():
     return render_template('users/edit.html', form=form, user_id=user.id)
 
 
-@app.route('/delete', methods=["POST"])
-def delete_user():
-    """Delete user."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    do_logout()
-
-    db.session.delete(g.user)
-    db.session.commit()
-
-    return redirect("/signup")
-
-
 ##############################################################################
 # Jobs routes:
 
