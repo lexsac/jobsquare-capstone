@@ -21,15 +21,10 @@ class UserAddForm(FlaskForm):
 class UserEditForm(FlaskForm):
     """Form for editing users."""
 
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    email = StringField('E-mail', validators=[DataRequired(), Email()])
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[Length(min=6)])
-    location = SelectField('Location', choices=[('Lisbon, Portugal', 'Lisbon, Portugal')])
+    location = SelectField('Location', choices=locations_list)
     category = SelectField('Category', choices=[('Software Engineering', 'Software Engineering')])
-    experience_level = SelectField('Experience Level', choices=[('Entry Level', 'Entry Level')])
-    company = SelectField('Company', choices=[('Apple', 'Apple')])
+    experience_level = SelectField('Experience Level', choices=[('Internship'), ('Entry Level'), ('Mid Level'), ('Senior Level')])
+    company = SelectField('Company', choices=[('Siemens'), ('Echo Global Logistics')])
 
 class LoginForm(FlaskForm):
     """Login form."""

@@ -9,14 +9,30 @@
 
       <form method="POST">
         {{ form.hidden_tag() }}
-
         {% for field in form if field.widget.input_type != 'hidden' %}
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
           <div class="mb-3">
-            {{ field.label(class="form-label") }}
-            {{ field(class="form-control") }}
+            {% if field.name == 'first_name' %}
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control") }}
+            {% elif field.name == 'last_name' %}
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control") }}
+            {% elif field.name == 'email' %}
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control") }}
+            {% elif field.name == 'username' %}
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control") }}
+            {% elif field.name == 'password' %}
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control") }}
+            {% else %}
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control, form-select") }}
+            {% endif %}
           </div>
         {% endfor %}
 
