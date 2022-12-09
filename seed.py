@@ -47,7 +47,7 @@ with app.app_context():
                     db.session.add(j)
                     db.session.commit()
 
-    get_jobs(1,20)
+    get_jobs(0,20)
 
 
 
