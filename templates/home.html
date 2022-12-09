@@ -3,31 +3,37 @@
 
   <div class="container">
     <div class="container-box">
+      {% if jobs %}
       <h1>Here are jobs that match your criteria</h1>
       <p>X results</p>
-      <div class="vstack gap=2">
-        {% for job in jobs %}
-          <div class="job-box">
-            <a href="/jobs/{{ job.id }}">
-              <h3>{{ job.name }}</h3>
+          {% for job in jobs %}
+          <div class="vstack gap=2">
+            <div class="job-box">
+              <a href="/jobs/{{ job.id }}">
+                <h3>{{ job.name }}</h3>
+              </a>
+                <p>At {{ job.company }} - {{ job.location }}</p>
+                <p>Posted {{ job.created_at }}</p>
+                <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-primary">Apply</button></a>
+                <a href="/jobs/{{ job.id }}"><button class="btn btn-secondary">View job</button></a>
+                <form method="POST" action="/jobs/{{ job.id }}/like">
+                  <button class="btn">
+                    {% if job.id in likes %}
+                    <i class="fa-solid fa-heart"></i> 
+                    {% else %}
+                    <i class="fa-regular fa-heart"></i> 
+                    {% endif %}
+                  </button>
+                </form> 
+              </div>
             </a>
-              <p>At {{ job.company }} - {{ job.location }}</p>
-              <p>Posted {{ job.created_at }}</p>
-              <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-primary">Apply</button></a>
-              <a href="/jobs/{{ job.id }}"><button class="btn btn-secondary">View job</button></a>
-              <form method="POST" action="/jobs/{{ job.id }}/like">
-                <button class="btn">
-                  {% if job.id in likes %}
-                  <i class="fa-solid fa-heart"></i> 
-                  {% else %}
-                  <i class="fa-regular fa-heart"></i> 
-                  {% endif %}
-                </button>
-              </form> 
-            </div>
-          </a>
-        {% endfor %}
-      </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <h1>No jobs matches</h1>
+          <p>Uh oh! Try changing your preferences to find a match. Don't give up just yet!</p>
+          <a href="/profile"><button class="btn btn-primary">Change it up</button></a>
+      {% endif %}
     </div>
   </div>
   
