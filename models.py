@@ -120,7 +120,8 @@ class Job(db.Model):
     created_at = db.Column(
         db.DateTime,
         nullable=False,
-        default=datetime.datetime.now)
+        default=datetime.datetime.now
+    )
     landing_page_url = db.Column(db.Text, nullable=False)
 
 

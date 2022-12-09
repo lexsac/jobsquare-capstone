@@ -214,12 +214,12 @@ def homepage():
     """
 
     if g.user:
-        jobs = Job.query.filter(Job.experience_level == g.user.experience_level, 
-                                Job.location == g.user.location,
-                                # Job.category == g.user.category,
-                                Job.company == g.user.company,
-                                ).all()
-        
+        jobs = (Job
+                .query
+                .filter(Job.experience_level == g.user.experience_level, Job.location == g.user.location, Job.company == g.user.company)
+                .order_by(Job.created_at.desc())
+                .all())
+
         liked_job_ids = [job.id for job in g.user.likes]
 
         return render_template('home.html', jobs=jobs, likes=liked_job_ids)

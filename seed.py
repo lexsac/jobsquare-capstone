@@ -29,6 +29,7 @@ with app.app_context():
                         category = "filler text",
                         experience_level=job_info['levels'][0]['name'],
                         company=job_info['company']['name'],
+                        created_at=job_info['publication_date'],
                         landing_page_url=job_info['refs']['landing_page'] 
                     )
                     if (Location.query.filter_by(name=job_info['locations'][0]['name']).first() == None):
