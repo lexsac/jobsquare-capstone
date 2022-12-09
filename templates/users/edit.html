@@ -4,19 +4,18 @@
   <div class="container">
     <div class="container-box">
       <h2>Edit Your Profile</h2>
-      <form method="POST" id="user_form">
+      <form method="POST" id="user_form" class="row g-3">
         {{ form.hidden_tag() }}
           {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             {{ field.label(class="form-label") }}
             {{ field(class="form-control, form-select") }}
           </div>
           {% endfor %}
 
-          <p>To confirm changes, enter your password:</p>
           {% if form.password.errors %}
             {% for error in form.password.errors %}
               <span class="text-danger">

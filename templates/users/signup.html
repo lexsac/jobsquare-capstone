@@ -7,33 +7,43 @@
       <h2>Join Job Board today</h2>
       <p>Sign up now to create your account, set preferences, and view your personalized list of job postings.</p>
 
-      <form method="POST">
+      <form method="POST" class="row g-3">
         {{ form.hidden_tag() }}
         {% for field in form if field.widget.input_type != 'hidden' %}
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
-          <div class="mb-3">
-            {% if field.name == 'first_name' %}
+          {% if field.name == 'first_name' %}
+            <div class="col-md-6 mb-3">
               {{ field.label(class="form-label") }}
               {{ field(class="form-control") }}
-            {% elif field.name == 'last_name' %}
-              {{ field.label(class="form-label") }}
-              {{ field(class="form-control") }}
-            {% elif field.name == 'email' %}
-              {{ field.label(class="form-label") }}
-              {{ field(class="form-control") }}
-            {% elif field.name == 'username' %}
-              {{ field.label(class="form-label") }}
-              {{ field(class="form-control") }}
-            {% elif field.name == 'password' %}
-              {{ field.label(class="form-label") }}
-              {{ field(class="form-control") }}
-            {% else %}
-              {{ field.label(class="form-label") }}
-              {{ field(class="form-control, form-select") }}
-            {% endif %}
-          </div>
+            </div>
+              {% elif field.name == 'last_name' %}
+                <div class="col-md-6 mb-3">
+                  {{ field.label(class="form-label") }}
+                  {{ field(class="form-control") }}
+                </div>
+              {% elif field.name == 'email' %}
+                <div class="col-md-6 mb-3">
+                  {{ field.label(class="form-label") }}
+                  {{ field(class="form-control") }}
+                </div>
+              {% elif field.name == 'username' %}
+                <div class="col-md-6 mb-3">
+                  {{ field.label(class="form-label") }}
+                  {{ field(class="form-control") }}
+                </div>
+              {% elif field.name == 'password' %}
+                <div class="col-md-6 mb-3">
+                  {{ field.label(class="form-label") }}
+                  {{ field(class="form-control") }}
+                </div>
+              {% else %}
+                <div class="col-md-6 mb-3">
+                  {{ field.label(class="form-label") }}
+                  {{ field(class="form-control, form-select") }}
+                </div>
+              {% endif %}
         {% endfor %}
 
         <a href="/"><button class="btn btn-primary">Sign me up!</button></a>

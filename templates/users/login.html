@@ -7,14 +7,14 @@
       <h2>Welcome back!</h2>
       <p>Log in below to access your account, see your saved jobs, and more.</p>
 
-      <form method="POST">
+      <form method="POST" class="row g-3">
         {{ form.hidden_tag() }}
 
         {% for field in form if field.widget.input_type != 'hidden' %}
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             {{ field.label(class="form-label") }}
             {{ field(class="form-control") }}
           </div>
