@@ -17,7 +17,7 @@
                 <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-primary">Apply</button></a>
                 <a href="/jobs/{{ job.id }}"><button class="btn btn-secondary">View job</button></a>
                 <form method="POST" action="/jobs/{{ job.id }}/like">
-                  <button class="btn">
+                  <button class="btn btn-like">
                     {% if job.id in likes %}
                     <i class="fa-solid fa-heart"></i> 
                     {% else %}
@@ -31,7 +31,7 @@
           {% endfor %}
           {% else %}
           <h1>No jobs matches</h1>
-          <p>Uh oh! Try changing your preferences to find a match. Don't give up just yet!</p>
+          <p>Uh oh...try changing your preferences to find a match. Don't give up just yet!</p>
           <a href="/profile"><button class="btn btn-primary">Change it up</button></a>
       {% endif %}
     </div>
