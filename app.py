@@ -157,10 +157,6 @@ def edit_profile():
 
     if form.validate_on_submit():
         if User.authenticate(user.username, form.password.data):
-            user.first_name = form.first_name.data,
-            user.last_name = form.last_name.data,
-            user.email =form.email.data,
-            user.username = form.username.data,
             user.location = form.location.data,
             user.category = form.category.data,
             user.experience_level = form.experience_level.data,
@@ -172,6 +168,7 @@ def edit_profile():
         flash("Wrong password, please try again.", 'danger')
 
     return render_template('users/edit.html', form=form, user_id=user.id)
+
 
 
 ##############################################################################
