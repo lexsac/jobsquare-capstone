@@ -9,8 +9,8 @@
           <div class="job-box">
             <a href="/jobs/{{ job.id }}"><h3>{{ job.name }}</h3></a>
             <p>At {{ job.company }} - {{ job.location }}</p>
-            <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-secondary">Apply</button></a>
-            <a href="/jobs/{{ job.id }}"><button class="btn btn-primary">View job</button></a>
+            <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-primary">Apply</button></a>
+            <a href="/jobs/{{ job.id }}"><button class="btn btn-secondary">View job</button></a>
             <form method="POST" action="/jobs/{{ job.id }}/like">
               <button class="btn btn-sm">
                 {% if job.id in liked_jobs %}
