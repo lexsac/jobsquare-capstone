@@ -24,20 +24,20 @@ class User(db.Model):
         nullable=False,
         default=datetime.datetime.now) 
     location = db.Column(
-        db.Text, 
-        # db.ForeignKey('locations.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('locations.id', ondelete="cascade")
     )
     category = db.Column(
-        db.Text, 
-        # db.ForeignKey('categories.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('categories.id', ondelete="cascade")
     )
     experience_level = db.Column(
-        db.Text, 
-        # db.ForeignKey('experience_levels.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('experience_levels.id', ondelete="cascade")
     )
     company = db.Column(
-        db.Text, 
-        # db.ForeignKey('companies.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('companies.id', ondelete="cascade")
     )
 
     likes = db.relationship("Job", secondary="users_jobs", backref="users_liked")
@@ -102,20 +102,20 @@ class Job(db.Model):
     name = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
     location = db.Column(
-        db.Text, 
-        # db.ForeignKey('locations.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('locations.id', ondelete="cascade")
     )
     category = db.Column(
-        db.Text, 
-        # db.ForeignKey('categories.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('categories.id', ondelete="cascade")
     )
     experience_level = db.Column(
-        db.Text, 
-        # db.ForeignKey('experience_levels.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('experience_levels.id', ondelete="cascade")
     )
     company = db.Column(
-        db.Text, 
-        # db.ForeignKey('companies.id', ondelete="cascade")
+        db.Integer, 
+        db.ForeignKey('companies.id', ondelete="cascade")
     )
     created_at = db.Column(
         db.DateTime,
