@@ -12,15 +12,17 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-
-uri = os.getenv('DATABASE_URL')  # or other relevant config var
-if uri.startswith('postgres://'):
-    uri = uri.replace('postgres://', 'postgresql://', 1)
-    
+  
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///job_board'))
+# replaces 'postgres' (used by Heroku Postgres) with 'postgresql' (needed for SQLAlchemy)
+try:
+    prodURI = os.getenv('DATABASE_URL')
+    prodURI = prodURI.replace("postgres://", "postgresql://")
+    app.config['SQLALCHEMY_DATABASE_URI'] = prodURI
+
+except:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///MYDATABASE'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
