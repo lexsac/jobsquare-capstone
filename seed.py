@@ -1,12 +1,13 @@
 """Seed file to make sample data for db."""
 
+import os
+
 from models import db, Job, Location, Category, Experiencelevel, Company, User, UserJob
 from app import app
 import requests
-from key import API_SECRET_KEY
 
 API_BASE_URL = "https://www.themuse.com/api/public/jobs"
-
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Create all tables
 with app.app_context():   
@@ -18,7 +19,7 @@ with app.app_context():
     def get_jobs(start_page_num, end_page_num):
 
         for page_num in range(start_page_num, end_page_num):
-            response = requests.get(f"{API_BASE_URL}?page={page_num}", params={"key": API_SECRET_KEY}).json()
+            response = requests.get(f"{API_BASE_URL}?page={page_num}", params={"key": SECRET_KEY}).json()
             
             for job_info in response['results']:
                 with app.app_context():
