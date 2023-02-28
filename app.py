@@ -1,4 +1,5 @@
 import os
+import logging
 
 from flask import Flask, request, redirect, render_template, flash, g, session, current_app, abort
 from flask_debugtoolbar import DebugToolbarExtension
@@ -28,7 +29,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-# toolbar = DebugToolbarExtension(app)
+toolbar = DebugToolbarExtension(app)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 connect_db(app)
 
