@@ -8,6 +8,41 @@ bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 
+class Location(db.Model):
+    """Locations."""
+
+    __tablename__ = "locations"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+
+class Category(db.Model):
+    """Categories."""
+
+    __tablename__ = "categories"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+
+class Experiencelevel(db.Model):
+    """Experience Levels."""
+
+    __tablename__ = "experience_levels"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+class Company(db.Model):
+    """Companies."""
+
+    __tablename__ = "companies"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+
 class User(db.Model):
     """Site users."""
 
@@ -23,22 +58,28 @@ class User(db.Model):
         db.DateTime,
         nullable=False,
         default=datetime.datetime.now) 
-    location = db.Column(
+    
+    location_id = db.Column(
         db.Integer, 
         db.ForeignKey('locations.id', ondelete="cascade")
     )
-    category = db.Column(
+    category_id = db.Column(
         db.Integer, 
         db.ForeignKey('categories.id', ondelete="cascade")
     )
-    experience_level = db.Column(
+    experience_level_id = db.Column(
         db.Integer, 
         db.ForeignKey('experience_levels.id', ondelete="cascade")
     )
-    company = db.Column(
+    company_id = db.Column(
         db.Integer, 
         db.ForeignKey('companies.id', ondelete="cascade")
     )
+
+    location = db.relationship("Location", backref="users")
+    category = db.relationship("Category", backref="users")
+    experience_level = db.relationship("Experiencelevel", backref="users")
+    company = db.relationship("Company", backref="users")
 
     likes = db.relationship("Job", secondary="users_jobs", backref="users_liked")
 
@@ -51,16 +92,21 @@ class User(db.Model):
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
+        location_id = Location.query.get(location)
+        category_id = Category.query.get(category)
+        experience_level_id = Experiencelevel.query.get(experience_level)
+        company_id = Company.query.get(company)
+
         user = User(
             first_name=first_name,
             last_name=last_name,
             email=email,
             username=username,
             password=hashed_pwd,
-            location=location,
-            category=category,
-            experience_level=experience_level,
-            company=company
+            location_id=location_id,
+            category_id=category_id,
+            experience_level_id=experience_level_id,
+            company_id=company_id
         )
 
         db.session.add(user)
@@ -124,7 +170,6 @@ class Job(db.Model):
     )
     landing_page_url = db.Column(db.Text, nullable=False)
 
-
 class UserJob(db.Model):
     """Jobs liked by users."""
 
@@ -140,42 +185,6 @@ class UserJob(db.Model):
         db.ForeignKey('jobs.id', ondelete="cascade"),
         primary_key=True
     )
-
-
-class Location(db.Model):
-    """Locations."""
-
-    __tablename__ = "locations"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, nullable=False)
-
-
-class Category(db.Model):
-    """Categories."""
-
-    __tablename__ = "categories"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, nullable=False)
-
-
-class Experiencelevel(db.Model):
-    """Experience Levels."""
-
-    __tablename__ = "experience_levels"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, nullable=False)
-
-class Company(db.Model):
-    """Companies."""
-
-    __tablename__ = "companies"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, nullable=False)
-
 
 def connect_db(app):
     """Connect this database to provided Flask app.

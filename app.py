@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request, redirect, render_template, flash, g, session, current_app, abort
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Job
+from models import db, connect_db, User, Job, Location, Category, Experiencelevel, Company
 from sqlalchemy.exc import IntegrityError
 import requests
 from forms import UserAddForm, UserEditForm, LoginForm
@@ -22,7 +22,7 @@ try:
     app.config['SQLALCHEMY_DATABASE_URI'] = prodURI
 
 except:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///MYDATABASE'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///job_board'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
@@ -78,11 +78,11 @@ def signup():
     if form.validate_on_submit():
         try:
             user = User.signup(
-                first_name= form.first_name.data,
-                last_name= form.last_name.data,
-                email=form.email.data,
-                username=form.username.data,
-                password=form.password.data,
+                first_name = form.first_name.data,
+                last_name = form.last_name.data,
+                email = form.email.data,
+                username = form.username.data,
+                password = form.password.data,
                 location = form.location.data,
                 category = form.category.data,
                 experience_level = form.experience_level.data,
@@ -162,10 +162,15 @@ def edit_profile():
 
     if form.validate_on_submit():
         if User.authenticate(user.username, form.password.data):
-            user.location = form.location.data,
-            user.category = form.category.data,
-            user.experience_level = form.experience_level.data,
-            user.company = form.company.data
+            location_id = Location.query.filter_by(name=form.location.data).first().id
+            category_id = Category.query.filter_by(name=form.category.data).first().id
+            experience_level_id = Experiencelevel.query.filter_by(name=form.experience_level.data).first().id
+            company_id = Company.query.filter_by(name=form.company.data).first().id
+
+            user.location_id = location_id,
+            user.category_id = category_id,
+            user.experience_level_id = experience_level_id,
+            user.company_id = company_id
 
             db.session.commit()
             return redirect("/")
@@ -221,7 +226,7 @@ def homepage():
     if g.user:
         jobs = (Job
                 .query
-                .filter(Job.experience_level == g.user.experience_level, Job.location == g.user.location, Job.company == g.user.company)
+                .filter(Job.experience_level_id == g.user.experience_level_id, Job.location_id == g.user.location_id, Job.company_id == g.user.company_id)
                 .order_by(Job.created_at.desc())
                 .all())
 
