@@ -92,10 +92,10 @@ class User(db.Model):
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
-        location_id = Location.query.get(location)
-        category_id = Category.query.get(category)
-        experience_level_id = Experiencelevel.query.get(experience_level)
-        company_id = Company.query.get(company)
+        location_id = db.session.query(Location.id).filter_by(name=location).one()[0]
+        category_id = db.session.query(Category.id).filter_by(name=category).one()[0]
+        experience_level_id = db.session.query(Experiencelevel.id).filter_by(name=experience_level).one()[0]
+        company_id = db.session.query(Company.id).filter_by(name=company).one()[0]
 
         user = User(
             first_name=first_name,
@@ -147,19 +147,19 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    location = db.Column(
+    location_id = db.Column(
         db.Integer, 
         db.ForeignKey('locations.id', ondelete="cascade")
     )
-    category = db.Column(
+    category_id = db.Column(
         db.Integer, 
         db.ForeignKey('categories.id', ondelete="cascade")
     )
-    experience_level = db.Column(
+    experience_level_id = db.Column(
         db.Integer, 
         db.ForeignKey('experience_levels.id', ondelete="cascade")
     )
-    company = db.Column(
+    company_id = db.Column(
         db.Integer, 
         db.ForeignKey('companies.id', ondelete="cascade")
     )
@@ -169,6 +169,11 @@ class Job(db.Model):
         default=datetime.datetime.now
     )
     landing_page_url = db.Column(db.Text, nullable=False)
+
+    company = db.relationship("Company", backref="jobs")
+    location = db.relationship("Location", backref="locations")
+    category = db.relationship("Category", backref="categories")
+    experience_level = db.relationship("Experiencelevel", backref="experience_levels")
 
 class UserJob(db.Model):
     """Jobs liked by users."""
