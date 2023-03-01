@@ -15,6 +15,7 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
+    
 
     def get_jobs(start_page_num, end_page_num):
 
@@ -36,7 +37,7 @@ with app.app_context():
                     if (job_info['levels'] and Experiencelevel.query.filter_by(name=job_info['levels'][0]['name']).first() == None):
                         e = Experiencelevel(name=job_info['levels'][0]['name'])
                         db.session.add(e)
-                        experience_id = Experiencelevel.query.filter_by(name=job_info['levels'][0]['name']).first().id
+                        experience_level_id = Experiencelevel.query.filter_by(name=job_info['levels'][0]['name']).first().id
 
                     if (job_info['company'] and Company.query.filter_by(name=job_info['company']['name']).first() == None):
                         co = Company(name=job_info['company']['name'])
@@ -45,14 +46,15 @@ with app.app_context():
 
                     j = Job(name=job_info['name'],
                         description=job_info['contents'] if job_info['contents'] else None,
-                        location=location_id if job_info['locations'] else None,
-                        category=category_id if job_info['categories'] else None,
-                        experience_level=experience_id,
-                        company=company_id if job_info['company'] else None,
+                        location_id=location_id if job_info['locations'] else None,
+                        category_id=category_id if job_info['categories'] else None,
+                        experience_level_id=experience_level_id,
+                        company_id=company_id if job_info['company'] else None,
                         created_at=job_info['publication_date'],
                         landing_page_url=job_info['refs']['landing_page'] 
                     )
                     db.session.add(j)
                     db.session.commit()
 
+    # The Muse API only allows pages 0-99 
     get_jobs(0,99)
