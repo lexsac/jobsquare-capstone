@@ -2,11 +2,16 @@
 {% block content %}
 
   <div>
-    <div>
-      <h1>New to Job Board?</h1>
-      <p>Sign up now to get your own personalized list of jobs!</p>
-      <p>Your dream job is just a job posting away.</p>
-      <a href="/signup"><button>Sign up</button></a>
+    <div class="home-anon__text">
+      <h1 class="home-anon__title">Find your next <span class="home-anon__title-span">dream job.</span></h1>
+      <p class="home-anon__description">Start your search today and see postings from your favorite companies.</p>
+      
+      <form action="{{ url_for('search') }}" class="home-anon__search-form">
+        <input type="text" name="query" placeholder="Search jobs..." class="home-anon__search-form__input">
+        <button class="home-anon__search-button" type="submit">
+          <img class="home-anon_search-button-icon" src="../static/assets/desktop/icon-search.svg" width="24" height="24"></span>
+        </button>
+      </form>
     </div>
   </div>
   
