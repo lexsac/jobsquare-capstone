@@ -6,7 +6,7 @@ from models import db, Job, Location, Category, Experiencelevel, Company, User, 
 from app import app
 import requests
 
-API_BASE_URL = "https://www.themuse.com/api/public/jobs"
+API_BASE_URL = "https://www.themuse.com/api/public"
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Create all tables
@@ -15,12 +15,9 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
-    
-
     def get_jobs(start_page_num, end_page_num):
-
         for page_num in range(start_page_num, end_page_num):
-            response = requests.get(f"{API_BASE_URL}?page={page_num}", params={"key": SECRET_KEY}).json()
+            response = requests.get(f"{API_BASE_URL}/jobs?page={page_num}", params={"key": SECRET_KEY}).json()
             
             for job_info in response['results']:
                 with app.app_context():
@@ -56,5 +53,21 @@ with app.app_context():
                     db.session.add(j)
                     db.session.commit()
 
-    # The Muse API only allows pages 0-99 
+    def add_logo_to_companies(start_page_num, end_page_num):
+        for page_num in range(start_page_num, end_page_num):
+            response = requests.get(f"{API_BASE_URL}/companies?page={page_num}", params={"key": SECRET_KEY}).json()
+
+            for company in response['results']:
+                with app.app_context():
+                    if Company.query.filter_by(name=company['name']).first() == None:
+                        co = Company(name=company['name'], logo_img=company['refs']['logo_image'])
+                        db.session.add(co)
+                        db.session.commit()
+                    else: 
+                        co = Company.query.filter_by(name=company['name']).first()
+                        co.logo_img = company['refs']['logo_image']
+                        db.session.add(co)
+                        db.session.commit()
+
     get_jobs(0,99)
+    add_logo_to_companies(0,99)
