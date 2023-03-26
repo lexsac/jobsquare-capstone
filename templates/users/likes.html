@@ -23,9 +23,11 @@
             </div>
           {% endfor %}
         {% else %}
-          <h1>No saved jobs</h1>
-          <p>Uh oh! Your next job is out there...you just need to find the job posting.</p>
-          <a href="/"><button>Keep Looking</button></a>
+            <div class="likes__text"> 
+              <h1 class="likes__title">No saved jobs</h1>
+              <p class="likes__description">Uh oh! Your next job is out there...you just need to find the job posting.</p>
+              <a href="/"><button class="button-dark">Keep Looking</button></a>
+            </div>
         {% endif %}
       </div>
     </div>
