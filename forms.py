@@ -34,56 +34,56 @@ class UserAddForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
 
-    location = SelectField(
-        'Select a location', 
-        choices=location_list, 
-        validators=[DataRequired()])
+    # location = SelectField(
+    #     'Select a location', 
+    #     choices=location_list, 
+    #     validators=[DataRequired()])
 
-    category = SelectField(
-        'Select a job category',
-        choices=category_list,
-        validators=[DataRequired()]
-    )
+    # category = SelectField(
+    #     'Select a job category',
+    #     choices=category_list,
+    #     validators=[DataRequired()]
+    # )
     
-    experience_level = SelectField(
-        'Experience Level', 
-        choices=experience_level_list,
-        validators=[DataRequired()]
-    )
+    # experience_level = SelectField(
+    #     'Experience Level', 
+    #     choices=experience_level_list,
+    #     validators=[DataRequired()]
+    # )
     
-    company = SelectField(
-        'Company', 
-        choices=company_list,
-        validators=[DataRequired()]
-    )
+    # company = SelectField(
+    #     'Company', 
+    #     choices=company_list,
+    #     validators=[DataRequired()]
+    # )
     
 
 class UserEditForm(FlaskForm):
     """Form for editing users."""
 
     password = PasswordField('Password', validators=[Length(min=6)])
-    location = SelectField(
-        'Select a location', 
-        choices=location_list, 
-        validators=[DataRequired()])
+    # location = SelectField(
+    #     'Select a location', 
+    #     choices=location_list, 
+    #     validators=[DataRequired()])
 
-    category = SelectField(
-        'Select a job category',
-        choices=category_list,
-        validators=[DataRequired()]
-    )
+    # category = SelectField(
+    #     'Select a job category',
+    #     choices=category_list,
+    #     validators=[DataRequired()]
+    # )
     
-    experience_level = SelectField(
-        'Experience Level', 
-        choices=experience_level_list,
-        validators=[DataRequired()]
-    )
+    # experience_level = SelectField(
+    #     'Experience Level', 
+    #     choices=experience_level_list,
+    #     validators=[DataRequired()]
+    # )
     
-    company = SelectField(
-        'Company', 
-        choices=company_list,
-        validators=[DataRequired()]
-    )
+    # company = SelectField(
+    #     'Company', 
+    #     choices=company_list,
+    #     validators=[DataRequired()]
+    # )
     
 
 class LoginForm(FlaskForm):
