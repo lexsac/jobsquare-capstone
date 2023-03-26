@@ -220,7 +220,6 @@ body {
 /* ------------------------- */
 
 .navigation {
-    background-image: url('../assets/mobile/bg-pattern-header.svg');
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -228,20 +227,13 @@ body {
     padding-top: 2rem;
     padding-bottom: 4.5rem;
     padding-inline: 1.5rem;
-    position: sticky;
     top: 0;
 }
 
-.navigation__items {
-    display: flex;
-    justify-content: space-between;
+.navigation__links {
     color: hsl(var(--secondary-white));
     font-weight: var(--fw-bold);
     align-items: center;
-}
-
-.navigation__links {
-    display: flex;
 }
 
 .navigation__link {
@@ -250,8 +242,127 @@ body {
 
 .navigation__logo {
     font-size: var(--fs-h1);
+    color: hsl(var(--secondary-white));
+    font-weight: var(--fw-bold);
 }
 
+/* Mobile only */
+@media (max-width: 43.99em) {
+    .navigation {
+        background-image: url('../assets/mobile/bg-pattern-header.svg');
+    }
+
+    .navigation__items {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .navigation__links {
+        display: none;
+    }
+
+    .navigation__links.open {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 2.5rem;
+        color: hsl(var(--primary-very-dark-blue));
+        position: absolute;
+        right: 20%;
+        z-index: 1000;
+        text-align: left;
+    }
+
+    .navigation__modal-overlay.open {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: hsla(var(--primary-midnight), 0.6); /* semi-transparent black color */
+        z-index: 100; /* set a high z-index to make sure it's on top of other elements */
+    }
+
+    .navigation__toggle-btn {
+        display: block;
+        position: absolute;
+        top: 40px;
+        right: 20px;
+        border: none;
+        background: none;
+    }
+
+    .navigation__toggle-bar {
+        display: block;
+        width: 20px;
+        height: 2px;
+        margin: 4px 0;
+        background-color: hsl(var(--secondary-white));
+      }
+
+    .navigation__toggle.open {
+        background-color: hsl(var(--secondary-light-grey));
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 60%;
+        z-index: 200;
+        border-radius: 5px;
+    }
+
+    .navigation__toggle-btn.open .navigation__toggle-bar {
+        transform: rotate(0deg);
+        transition: transform .3s;
+        background-color: hsl(var(--primary-violet));
+    }
+
+    .navigation__toggle-btn.open .navigation__toggle-bar:first-child {
+        transform: rotate(45deg) translate(4px, 4px);
+        transition: transform .3s;
+        background-color: hsl(var(--primary-violet));
+    }
+
+    .navigation__toggle-btn.open .navigation__toggle-bar:nth-child(2) {
+        opacity: 0;
+        transition: opacity .3s;
+        background-color: hsl(var(--primary-violet));
+    }
+
+    .navigation__toggle-btn.open .navigation__toggle-bar:last-child {
+        transform: rotate(-45deg) translate(4px, -5px);
+        transition: transform .3s;
+        background-color: hsl(var(--primary-violet));
+    }
+
+    .navigation__toggle-btn:focus {
+        outline: none;
+    }
+}
+
+/* Tablet */
+@media (min-width: 44em) {
+    .navigation {
+        background-image: url('../assets/tablet/bg-pattern-header.svg'); 
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .navigation__toggle-btn {
+        display: none;
+    }
+
+    .navigation__links {
+        display: flex;
+    }
+}
+
+/* Desktop */
+@media (min-width: 60em) { 
+    .navigation {
+        background-image: url('../assets/desktop/bg-pattern-header.svg'); 
+    }
+}
 
 /* ------------------------- */
 /* Homepage styling */
@@ -294,7 +405,6 @@ body {
 
 .job__filter {
     /* flex: 2; */
-    position: sticky;
     top: 250px;
     width: 250px;
 }
@@ -305,19 +415,18 @@ body {
     width: calc(100% - 250px);
 }
 
-.search-form {
+/* .search-form {
     padding: 1rem;
     background-color: hsl(var(--secondary-white));
     border-radius: 5px;
     width: 80%;
     margin-inline: auto;
-    position: sticky;
-    /* position: absolute;
+    position: absolute;
+    z-index: 5;
     top: 80px;
     left: 50%;
-    transform: translateX(-50%); */
-
-}
+    transform: translateX(-50%);
+} */
 
 .search-form__input {
     background-color: hsl(var(--secondary-white));
