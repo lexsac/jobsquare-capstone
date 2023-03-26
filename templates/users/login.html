@@ -2,25 +2,25 @@
 {% block body_class %}onboarding{% endblock %}
 {% block content %}
 
-  <div class="container"> 
-    <div class="container-box">
+  <div> 
+    <div>
       <h1>Welcome back!</h1>
       <p>Log in below to access your account, see your saved jobs, and more.</p>
 
-      <form method="POST" class="row g-3">
+      <form method="POST">
         {{ form.hidden_tag() }}
 
         {% for field in form if field.widget.input_type != 'hidden' %}
           {% for error in field.errors %}
-            <span class="text-danger">{{ error }}</span>
+            <span>{{ error }}</span>
           {% endfor %}
-          <div class="col-md-6 mb-3">
+          <div>
             {{ field.label(class="form-label") }}
             {{ field(class="form-control") }}
           </div>
         {% endfor %}
 
-        <a href="/"><button class="btn btn-primary">Login</button></a>
+        <a href="/"><button>Login</button></a>
       </form>
     </div>
   </div>

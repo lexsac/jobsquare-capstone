@@ -2,51 +2,51 @@
 {% block body_class %}onboarding{% endblock %}
 {% block content %}
 
-  <div class="container">
-    <div class="container-box">
+  <div>
+    <div>
       <h1>Join Job Board today</h1>
       <p>Sign up now to create your account, set preferences, and view your personalized list of job postings.</p>
 
-      <form method="POST" class="row g-3">
+      <form method="POST">
         {{ form.hidden_tag() }}
         {% for field in form if field.widget.input_type != 'hidden' %}
           {% for error in field.errors %}
-            <span class="text-danger">{{ error }}</span>
+            <span>{{ error }}</span>
           {% endfor %}
           {% if field.name == 'first_name' %}
-            <div class="col-md-6 mb-3">
+            <div>
               {{ field.label(class="form-label") }}
               {{ field(class="form-control") }}
             </div>
               {% elif field.name == 'last_name' %}
-                <div class="col-md-6 mb-3">
+                <div>
                   {{ field.label(class="form-label") }}
                   {{ field(class="form-control") }}
                 </div>
               {% elif field.name == 'email' %}
-                <div class="col-md-6 mb-3">
+                <div>
                   {{ field.label(class="form-label") }}
                   {{ field(class="form-control") }}
                 </div>
               {% elif field.name == 'username' %}
-                <div class="col-md-6 mb-3">
+                <div>
                   {{ field.label(class="form-label") }}
                   {{ field(class="form-control") }}
                 </div>
               {% elif field.name == 'password' %}
-                <div class="col-md-6 mb-3">
+                <div>
                   {{ field.label(class="form-label") }}
                   {{ field(class="form-control") }}
                 </div>
               {% else %}
-                <div class="col-md-6 mb-3">
+                <div>
                   {{ field.label(class="form-label") }}
                   {{ field(class="form-control, form-select") }}
                 </div>
               {% endif %}
         {% endfor %}
 
-        <a href="/"><button class="btn btn-primary">Sign me up!</button></a>
+        <a href="/"><button>Sign me up!</button></a>
       </form>
     </div>
   </div>
