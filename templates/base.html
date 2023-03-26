@@ -15,27 +15,31 @@
 </head>
 
 <body>
-  <nav class="navigation">
-    <div class="navigation__items">
-      <a href="/" class="navigation__logo">jobsquare</a>
-      <!-- <button>
-        <span></span>
-      </button> -->
-      <div>
-        <ul class="navigation__links">
-          {% if not g.user %}
-          <li><a class="navigation__link" href="/signup">Sign up</a></li>
-          <li><a class="navigation__link" href="/login">Log in</a></li>
-          {% else %}
-          <li><a class="navigation__link" href="/likes"><i class="fa-solid fa-heart"></i></a></li>
-          <li><a class="navigation__link" href="/profile">Profile</a></li>
-          <li><a class="navigation__link" href="/logout">Log out</a></li>
-          {% endif %}
-        </ul>
+    <nav class="navigation">
+      <div class="navigation__modal-overlay"></div>
+      <div class="navigation__items">
+        <a href="/" class="navigation__logo">jobsquare</a>
+        <div class="navigation__toggle">
+          <button class="navigation__toggle-btn">
+            <span class="navigation__toggle-bar"></span>
+            <span class="navigation__toggle-bar"></span>
+            <span class="navigation__toggle-bar"></span>
+          </button>
+        </div>
       </div>
-    </div>
-  </nav>
-
+      <ul class="navigation__links">
+        {% if not g.user %}
+        <li><a class="navigation__link" href="/signup">Sign up</a></li>
+        <li><a class="navigation__link" href="/login">Log in</a></li>
+        {% else %}
+        <!-- <li><a class="navigation__link" href="/likes"><i class="fa-solid fa-heart"></i></a></li> -->
+        <li><a class="navigation__link" href="/likes">Saved Jobs</a></li>
+        <li><a class="navigation__link" href="/profile">Profile</a></li>
+        <li><a class="navigation__link" href="/logout">Log out</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  
   {% block content %}
   {% endblock %}
   
