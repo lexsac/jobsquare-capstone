@@ -3,3 +3,4 @@ __pycache__/
 get-pip.py
 key.py
 .DS_Store
+static/.DS_Store
