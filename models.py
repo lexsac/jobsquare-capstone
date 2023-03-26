@@ -41,6 +41,7 @@ class Company(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
+    logo_img = db.Column(db.Text)
 
 
 class User(db.Model):
@@ -84,7 +85,9 @@ class User(db.Model):
     likes = db.relationship("Job", secondary="users_jobs", backref="users_liked")
 
     @classmethod
-    def signup(cls, first_name, last_name, email, username, password, location, category, experience_level, company):
+    def signup(cls, first_name, last_name, email, username, password, 
+    # location, category, experience_level, company
+    ):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -92,10 +95,10 @@ class User(db.Model):
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
-        location_id = db.session.query(Location.id).filter_by(name=location).one()[0]
-        category_id = db.session.query(Category.id).filter_by(name=category).one()[0]
-        experience_level_id = db.session.query(Experiencelevel.id).filter_by(name=experience_level).one()[0]
-        company_id = db.session.query(Company.id).filter_by(name=company).one()[0]
+        # location_id = db.session.query(Location.id).filter_by(name=location).one()[0]
+        # category_id = db.session.query(Category.id).filter_by(name=category).one()[0]
+        # experience_level_id = db.session.query(Experiencelevel.id).filter_by(name=experience_level).one()[0]
+        # company_id = db.session.query(Company.id).filter_by(name=company).one()[0]
 
         user = User(
             first_name=first_name,
@@ -103,10 +106,10 @@ class User(db.Model):
             email=email,
             username=username,
             password=hashed_pwd,
-            location_id=location_id,
-            category_id=category_id,
-            experience_level_id=experience_level_id,
-            company_id=company_id
+            # location_id=location_id,
+            # category_id=category_id,
+            # experience_level_id=experience_level_id,
+            # company_id=company_id
         )
 
         db.session.add(user)
