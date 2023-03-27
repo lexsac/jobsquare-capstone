@@ -30,6 +30,8 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
 
+app.app_context().push()
+
 connect_db(app)
 
 
@@ -224,12 +226,7 @@ def homepage():
     """
 
     if g.user:
-        jobs = (Job
-                .query
-                .filter(Job.experience_level_id == g.user.experience_level_id, Job.location_id == g.user.location_id, Job.company_id == g.user.company_id)
-                .order_by(Job.created_at.desc())
-                .all())
-
+        jobs = (Job.query.all())
         liked_job_ids = [job.id for job in g.user.likes]
 
         return render_template('home.html', jobs=jobs, likes=liked_job_ids)
