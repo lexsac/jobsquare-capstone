@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form action="{{ url_for('search') }}" class="search-form">
-    <input type="text" name="query" placeholder="Filter by title..." class="search-form__input">
-    <input type="text" name="query" placeholder="Filter by location..." class="search-form__input">
-    <button class="button-dark" type="submit">Search</button>
+  <form class="job__filtering">
+    <button> Experience Level</button>
+      <form id="job__filtering-experience-level">
+        <ul>
+          <li><input type="checkbox" name="checklist" value="Internship">Internship</li>
+          <li><input type="checkbox" name="checklist" value="Entry Level">Entry Level</li>
+          <li><input type="checkbox" name="checklist" value="Mid Level">Mid Level</li>
+          <li><input type="checkbox" name="checklist" value="Senior Level">Senior Level</li>
+        </ul>
+        <button type="submit">Search</button>
+      </form>
   </form>
   <div class="job__container">
     <div class="job__list">
@@ -21,8 +28,13 @@
                   <h3 class="job__title">{{ job.name }}</h3>
                   <p class="job__company">{{ job.company.name }}</p>
                   <p class="job__location">{{ job.location.name }}</p>
+                  <p>{{ job.category.name }}</p>
                 </div>
-                <i class="fa-regular fa-bookmark | job__button-like"></i>
+                <form method="POST" action="/jobs/{{ job.id }}/like">
+                  <button class="job__button-like">
+                    <i class="fa-{{'solid' if job.id in likes else 'regular'}} fa-bookmark"></i> 
+                  </button>
+                </form>
               </div>
             </a>
             {% endfor %}
