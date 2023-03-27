@@ -4,24 +4,34 @@
   <div>
     <div>
       <div>
+        <h1>Your saved jobs</h1>
         {% if likes %}
-          {% for job in likes %}
-            <div class="job-box">
-              <a href="/jobs/{{ job.id }}"><h3>{{ job.name }}</h3></a>
-              <p>At {{ job.company.name }} - {{ job.location.name }}</p>
-              <a href="{{ job.landing_page_url }}" target="_blank"><button>Apply</button></a>
-              <a href="/jobs/{{ job.id }}"><button>View job</button></a>
-              <form method="POST" action="/jobs/{{ job.id }}/like">
-                <button>
-                  {% if job.id in liked_jobs %}
-                  <i class="fa-solid fa-heart"></i> 
-                  {% else %}
-                  <i class="fa-regular fa-heart"></i> 
-                  {% endif %}
-                </button>
-              </form> 
-            </div>
-          {% endfor %}
+          <div class="job__cards">
+            {% for job in likes %}
+              <a href="/jobs/{{ job.id }}">
+                <div class="job__card">
+                  <div class="job__image">
+                    <img class="job__logo" height="48" width="108" src='{{job.company.logo_img}}'>
+                  </div>
+                  <div class="job__text">
+                    <p class="job__posted">Posted {{ job.created_at }}</p>
+                    <h3 class="job__title">{{ job.name }}</h3>
+                    <p class="job__company">{{ job.company.name }}</p>
+                    <p class="job__location">{{ job.location.name }}</p>
+                  </div>
+                  <form method="POST" action="/jobs/{{ job.id }}/like">
+                    <button class="job__button-like">
+                      {% if job.id in liked_jobs %}
+                      <i class="fa-solid fa-bookmark"></i> 
+                      {% else %}
+                      <i class="fa-regular fa-bookmark"></i> 
+                      {% endif %}
+                    </button>
+                  </form> 
+                </div>
+              </a>
+              {% endfor %}
+          </div>
         {% else %}
             <div class="likes__text"> 
               <h1 class="likes__title">No saved jobs</h1>
