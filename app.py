@@ -189,16 +189,16 @@ def show_jobs():
         liked_job_ids = [job.id for job in g.user.likes]
         likes=liked_job_ids
 
-        return render_template('home.html', jobs=jobs)
+        return render_template('/jobs/jobs.html', jobs=jobs)
 
     elif request.args.get('category-search'):
         search_category = request.args.get('category-search', '')
         jobs = Job.query.filter(Job.category.has(name=search_category)).all()
-        return render_template('home.html', jobs=jobs, search_category=search_category)
+        return render_template('/jobs/jobs.html', jobs=jobs, search_category=search_category)
     
     else: 
         jobs = Job.query.all()
-        return render_template('home.html', jobs=jobs)
+        return render_template('/jobs/jobs.html', jobs=jobs)
 
 @app.route('/jobs/<int:job_id>', methods=["GET"])
 def jobs_show(job_id):
@@ -245,10 +245,6 @@ def homepage():
     else:
         categories = Category.query.order_by(Category.name.asc()).all()
         return render_template('home-anon.html', categories=categories)
-
-@app.route('/search')
-def get_search_results():
-    return render_template('search.html')
 
 @app.errorhandler(404)
 def page_not_found(e):
