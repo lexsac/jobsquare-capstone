@@ -1,40 +1,33 @@
 {% extends 'base.html' %}
-{% block content %}
 
-  <div>
-    <div>
+{% block content %}
+  <form action="{{ url_for('search') }}" class="search-form">
+    <input type="text" name="query" placeholder="Filter by title..." class="search-form__input">
+    <input type="text" name="query" placeholder="Filter by location..." class="search-form__input">
+    <button class="button-dark" type="submit">Search</button>
+  </form>
+  <div class="job__container">
+    <div class="job__list">
       {% if jobs %}
-      <h1>Here are jobs that match your criteria</h1>
-      {% if jobs|length == 1 %}
-        <p>{{ jobs|length }} result</p>
-      {% endif %}
-      {% if jobs|length != 1 %}
-        <p>{{ jobs|length }} results</p>
-      {% endif %}
-          {% for job in jobs %}
-          <div>
-            <div>
-              <a href="/jobs/{{ job.id }}">
-                <h3>{{ job.name }}</h3>
-              </a>
-                <p>At {{ job.company.name }} - {{ job.location.name }}</p>
-                <p>Posted {{ job.created_at }}</p>
-                <a href="{{ job.landing_page_url }}" target="_blank"><button class="btn btn-primary">Apply</button></a>
-                <a href="/jobs/{{ job.id }}"><button class="btn btn-secondary">View job</button></a>
-                <form method="POST" action="/jobs/{{ job.id }}/like">
-                  <button class="btn">
-                    {% if job.id in likes %}
-                    <i class="fa-solid fa-heart"></i> 
-                    {% else %}
-                    <i class="fa-regular fa-heart"></i> 
-                    {% endif %}
-                  </button>
-                </form> 
+          <div class="job__cards">
+            {% for job in jobs %}
+            <a href="/jobs/{{ job.id }}">
+              <div class="job__card">
+                <div class="job__image">
+                  <img class="job__logo" height="48" width="108" src='{{job.company.logo_img}}'>
+                </div>
+                <div class="job__text">
+                  <p class="job__posted">Posted {{ job.created_at }}</p>
+                  <h3 class="job__title">{{ job.name }}</h3>
+                  <p class="job__company">{{ job.company.name }}</p>
+                  <p class="job__location">{{ job.location.name }}</p>
+                </div>
+                <i class="fa-regular fa-bookmark | job__button-like"></i>
               </div>
             </a>
+            {% endfor %}
           </div>
-          {% endfor %}
-          {% else %}
+      {% else %}
           <h1>No jobs matches</h1>
           <p>Uh oh...try changing your preferences to find a match. Don't give up just yet!</p>
           <a href="/profile"><button>Change it up</button></a>
