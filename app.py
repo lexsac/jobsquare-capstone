@@ -85,10 +85,6 @@ def signup():
                 email = form.email.data,
                 username = form.username.data,
                 password = form.password.data,
-                location = form.location.data,
-                category = form.category.data,
-                experience_level = form.experience_level.data,
-                company = form.company.data
             )
             db.session.commit()
 
@@ -117,7 +113,7 @@ def login():
         if user:
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
-            return redirect("/")
+            return redirect("/jobs")
 
         flash("Invalid credentials.", 'danger')
 
@@ -151,40 +147,58 @@ def show_likes():
     return render_template('users/likes.html', user=user, likes=user.likes, liked_jobs=liked_job_ids)
 
 
-@app.route('/profile', methods=["GET", "POST"])
-def edit_profile():
-    """Update profile for current user."""
+# @app.route('/profile', methods=["GET", "POST"])
+# def edit_profile():
+#     """Update profile for current user."""
 
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
 
-    user = g.user
-    form = UserEditForm(obj=user)
+#     user = g.user
+#     form = UserEditForm(obj=user)
 
-    if form.validate_on_submit():
-        if User.authenticate(user.username, form.password.data):
-            location_id = Location.query.filter_by(name=form.location.data).first().id
-            category_id = Category.query.filter_by(name=form.category.data).first().id
-            experience_level_id = Experiencelevel.query.filter_by(name=form.experience_level.data).first().id
-            company_id = Company.query.filter_by(name=form.company.data).first().id
+#     if form.validate_on_submit():
+#         if User.authenticate(user.username, form.password.data):
+#             # location_id = Location.query.filter_by(name=form.location.data).first().id
+#             # category_id = Category.query.filter_by(name=form.category.data).first().id
+#             # experience_level_id = Experiencelevel.query.filter_by(name=form.experience_level.data).first().id
+#             # company_id = Company.query.filter_by(name=form.company.data).first().id
 
-            user.location_id = location_id,
-            user.category_id = category_id,
-            user.experience_level_id = experience_level_id,
-            user.company_id = company_id
+#             # user.location_id = location_id,
+#             # user.category_id = category_id,
+#             # user.experience_level_id = experience_level_id,
+#             # user.company_id = company_id
 
-            db.session.commit()
-            return redirect("/")
+#             db.session.commit()
+#             return redirect("/")
 
-        flash("Wrong password, please try again.", 'danger')
+#         flash("Wrong password, please try again.", 'danger')
 
-    return render_template('users/edit.html', form=form, user_id=user.id)
+#     return render_template('users/edit.html', form=form, user_id=user.id)
 
 
 
 ##############################################################################
 # Jobs routes:
+
+@app.route('/jobs')
+def show_jobs():
+    if g.user:
+        jobs = Job.query.all()
+        liked_job_ids = [job.id for job in g.user.likes]
+        likes=liked_job_ids
+
+        return render_template('home.html', jobs=jobs)
+
+    elif request.args.get('category-search'):
+        search_category = request.args.get('category-search', '')
+        jobs = Job.query.filter(Job.category.has(name=search_category)).all()
+        return render_template('home.html', jobs=jobs, search_category=search_category)
+    
+    else: 
+        jobs = Job.query.all()
+        return render_template('home.html', jobs=jobs)
 
 @app.route('/jobs/<int:job_id>', methods=["GET"])
 def jobs_show(job_id):
@@ -226,14 +240,15 @@ def homepage():
     """
 
     if g.user:
-        jobs = (Job.query.all())
-        liked_job_ids = [job.id for job in g.user.likes]
-
-        return render_template('home.html', jobs=jobs, likes=liked_job_ids)
+        return redirect ('/jobs')
 
     else:
-        return render_template('home-anon.html')
+        categories = Category.query.order_by(Category.name.asc()).all()
+        return render_template('home-anon.html', categories=categories)
 
+@app.route('/search')
+def get_search_results():
+    return render_template('search.html')
 
 @app.errorhandler(404)
 def page_not_found(e):
