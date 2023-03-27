@@ -29,12 +29,12 @@
       </div>
       <ul class="navigation__links">
         {% if not g.user %}
+        <li><a class="navigation__link" href="/jobs">Jobs</a></li>
         <li><a class="navigation__link" href="/signup">Sign up</a></li>
         <li><a class="navigation__link" href="/login">Log in</a></li>
         {% else %}
-        <!-- <li><a class="navigation__link" href="/likes"><i class="fa-solid fa-heart"></i></a></li> -->
         <li><a class="navigation__link" href="/likes">Saved Jobs</a></li>
-        <li><a class="navigation__link" href="/profile">Profile</a></li>
+        <!-- <li><a class="navigation__link" href="/profile">Profile</a></li> -->
         <li><a class="navigation__link" href="/logout">Log out</a></li>
         {% endif %}
       </ul>
