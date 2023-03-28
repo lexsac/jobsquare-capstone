@@ -149,6 +149,38 @@ def show_likes():
     return render_template('users/likes.html', user=user, likes=user.likes, liked_jobs=liked_job_ids)
 
 
+@app.route('/update', methods=["POST"])
+def update_user():
+    """Update job preferences."""
+    
+    user = User.query.get_or_404(g.user.id)
+
+    category_filter = request.form.get('category-search')
+    location_filter = request.form.get('location-search')
+    company_filter = request.form.get('company-search')
+    experience_level_filter = request.form.get('experience-level-filter')
+
+    if category_filter:
+        category_lookup = Category.query.filter_by(name=category_filter).first()
+        user.category_id = category_lookup.id
+
+    if location_filter:
+        location_lookup = Location.query.filter_by(name=location_filter).first()
+        user.location_id = location_lookup.id
+
+    if company_filter:
+        company_lookup = Company.query.filter_by(name=company_filter).first()
+        user.company_id = company_lookup.id
+
+    if experience_level_filter:
+        experience_level_lookup = Experiencelevel.query.filter_by(name=experience_level_filter).first()
+        user.experience_level_id = experience_level_lookup.id
+
+    db.session.commit()
+
+    return redirect('/jobs')
+
+
 @app.route('/delete/<string:attribute>', methods=["POST"])
 def delete_attribute(attribute):
     """Delete attribute from current user."""
@@ -223,31 +255,6 @@ def show_jobs():
     if g.user:
         user = User.query.get_or_404(g.user.id)
         liked_job_ids = [job.id for job in user.likes]
-
-        category_filter = request.form.get('category-search')
-        location_filter = request.form.get('location-search')
-        company_filter = request.form.get('company-search')
-        experience_level_filter = request.form.get('experience-level-search')
-        
-        if category_filter:
-            category_lookup = Category.query.filter_by(name=category_filter).first()
-            g.user.category_id = category_lookup.id
-            db.session.commit()
-
-        if location_filter:
-            location_lookup = Location.query.filter_by(name=location_filter).first()
-            g.user.location_id = location_lookup.id
-            db.session.commit()
-
-        if company_filter:
-            company_lookup = Company.query.filter_by(name=company_filter).first()
-            g.user.company_id = company_lookup.id
-            db.session.commit()
-
-        if experience_level_filter:
-            experience_level_lookup = Experiencelevel.query.filter_by(name=experience_level_filter).first()
-            g.user.experience_level_id = experience_level_lookup.id
-            db.session.commit()
 
         job_query = Job.query
 
