@@ -149,6 +149,30 @@ def show_likes():
     return render_template('users/likes.html', user=user, likes=user.likes, liked_jobs=liked_job_ids)
 
 
+@app.route('/delete/<string:attribute>', methods=["POST"])
+def delete_attribute(attribute):
+    """Delete attribute from current user."""
+
+    user = User.query.get_or_404(g.user.id)
+    
+    if attribute == 'category':
+        user.category_id = None
+        db.session.commit()      
+    elif attribute == 'location':
+        user.location_id = None
+        db.session.commit()   
+    elif attribute == 'company':
+        user.company_id = None
+        db.session.commit()   
+    elif attribute == 'experience_level':
+        user.experience_level_id = None
+        db.session.commit()   
+
+    db.session.commit()
+
+    return redirect ('/jobs')
+
+
 # @app.route('/profile', methods=["GET", "POST"])
 # def edit_profile():
 #     """Update profile for current user."""
@@ -180,12 +204,17 @@ def show_likes():
 #     return render_template('users/edit.html', form=form, user_id=user.id)
 
 
-
 ##############################################################################
 # Jobs routes:
 
 @app.route('/jobs', methods=['GET', 'POST'])
 def show_jobs():
+    """ Show job listings. 
+    
+    For logged-in users: 
+    For anonymous users:
+    """
+
     categories = Category.query.order_by(Category.name.asc()).all()
     locations = Location.query.order_by(Location.name.asc()).all()
     companies = Company.query.order_by(Company.name.asc()).all()
@@ -198,7 +227,7 @@ def show_jobs():
         category_filter = request.form.get('category-search')
         location_filter = request.form.get('location-search')
         company_filter = request.form.get('company-search')
-        experience_level_filter = request.form.get('experience-level-filter')
+        experience_level_filter = request.form.get('experience-level-search')
         
         if category_filter:
             category_lookup = Category.query.filter_by(name=category_filter).first()
@@ -256,7 +285,6 @@ def show_jobs():
 
         return render_template('/jobs/jobs-anon.html', jobs=jobs, categories=categories, locations=locations,
                             companies=companies, experience_levels=experience_levels)
-
 
 
 @app.route('/jobs/<int:job_id>', methods=["GET"])
