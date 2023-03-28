@@ -4,8 +4,10 @@ from flask import Flask, request, redirect, render_template, flash, g, session, 
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Job, Location, Category, Experiencelevel, Company
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_, and_
 import requests
-from forms import UserAddForm, UserEditForm, LoginForm
+from forms import UserAddForm, LoginForm
+import pdb
 
 API_BASE_URL = "https://www.themuse.com/api/public/jobs"
 CURR_USER_KEY = "curr_user"
@@ -26,7 +28,7 @@ except:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
 
@@ -182,23 +184,80 @@ def show_likes():
 ##############################################################################
 # Jobs routes:
 
-@app.route('/jobs')
+@app.route('/jobs', methods=['GET', 'POST'])
 def show_jobs():
-    if g.user:
-        jobs = Job.query.all()
-        liked_job_ids = [job.id for job in g.user.likes]
-        likes=liked_job_ids
-
-        return render_template('/jobs/jobs.html', jobs=jobs)
-
-    elif request.args.get('category-search'):
-        search_category = request.args.get('category-search', '')
-        jobs = Job.query.filter(Job.category.has(name=search_category)).all()
-        return render_template('/jobs/jobs.html', jobs=jobs, search_category=search_category)
+    categories = Category.query.order_by(Category.name.asc()).all()
+    locations = Location.query.order_by(Location.name.asc()).all()
+    companies = Company.query.order_by(Company.name.asc()).all()
+    experience_levels = Experiencelevel.query.order_by(Experiencelevel.name.asc()).all()
     
-    else: 
-        jobs = Job.query.all()
-        return render_template('/jobs/jobs.html', jobs=jobs)
+    if g.user:
+        user = User.query.get_or_404(g.user.id)
+        liked_job_ids = [job.id for job in user.likes]
+
+        category_filter = request.form.get('category-search')
+        location_filter = request.form.get('location-search')
+        company_filter = request.form.get('company-search')
+        experience_level_filter = request.form.get('experience-level-filter')
+        
+        if category_filter:
+            category_lookup = Category.query.filter_by(name=category_filter).first()
+            g.user.category_id = category_lookup.id
+            db.session.commit()
+
+        if location_filter:
+            location_lookup = Location.query.filter_by(name=location_filter).first()
+            g.user.location_id = location_lookup.id
+            db.session.commit()
+
+        if company_filter:
+            company_lookup = Company.query.filter_by(name=company_filter).first()
+            g.user.company_id = company_lookup.id
+            db.session.commit()
+
+        if experience_level_filter:
+            experience_level_lookup = Experiencelevel.query.filter_by(name=experience_level_filter).first()
+            g.user.experience_level_id = experience_level_lookup.id
+            db.session.commit()
+
+        job_query = Job.query
+
+        if user.category_id is not None:
+            job_query = job_query.filter(Job.category.has(id=user.category_id))
+
+        if user.location_id is not None:
+            job_query = job_query.filter(Job.location.has(id=user.location_id))
+
+        if user.company_id is not None:
+            job_query = job_query.filter(Job.company.has(id=user.company_id))
+
+        if user.experience_level_id is not None:
+            job_query = job_query.filter(Job.experience_level.has(id=user.experience_level_id))
+
+        jobs = job_query.all()
+
+        return render_template('/jobs/jobs.html', jobs=jobs, user=user, liked_jobs=liked_job_ids, categories=categories, 
+            companies=companies, locations=locations, experience_levels=experience_levels)
+
+    else:
+        filters = {}
+        filters['category'] = request.args.get('category-search', '')
+        filters['location'] = request.args.get('location-search', '')
+        filters['company'] = request.args.get('company-search', '')
+        filters['experience_level'] = request.args.get('experience-level-search', '')
+
+        query_filters = []
+        for filter_name, filter_value in filters.items():
+            if filter_value:
+                filter_obj = getattr(Job, filter_name).has(name=filter_value)
+                query_filters.append(filter_obj)
+
+        jobs = Job.query.filter(and_(*query_filters)).all()
+
+        return render_template('/jobs/jobs-anon.html', jobs=jobs, categories=categories, locations=locations,
+                            companies=companies, experience_levels=experience_levels)
+
+
 
 @app.route('/jobs/<int:job_id>', methods=["GET"])
 def jobs_show(job_id):
@@ -226,7 +285,7 @@ def add_like(job_id):
 
     db.session.commit()
 
-    return redirect("/")
+    return redirect("/jobs")
 
 ##############################################################################
 # Homepage and error pages
