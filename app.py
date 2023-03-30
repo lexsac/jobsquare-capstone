@@ -158,7 +158,7 @@ def update_user():
     category_filter = request.form.get('category-search')
     location_filter = request.form.get('location-search')
     company_filter = request.form.get('company-search')
-    experience_level_filter = request.form.get('experience-level-filter')
+    experience_level_filter = request.form.get('experience-level-search')
 
     if category_filter:
         category_lookup = Category.query.filter_by(name=category_filter).first()
