@@ -6,7 +6,7 @@
       <h1 class="home-anon__title">Find your next <span class="home-anon__title-span">dream job.</span></h1>
       <p class="home-anon__description">Start your search today and see postings from your favorite companies.</p>
 
-      <form action='/jobs' class="home-anon__search-form" method="GET">
+      <form action='/jobs' class="home-anon__form" method="GET">
         <input type="text" name="category-search" id="category-search" list="search-options" placeholder="Search by job category..." class="home-anon__search-form__input">
         
         <datalist id="search-options">
@@ -16,8 +16,8 @@
         </datalist>
         
         <a href="/jobs">
-          <button class="home-anon__search-button" type="submit">
-            <img class="home-anon_search-button-icon" src="../static/assets/desktop/icon-search.svg" width="24" height="24"></span>
+          <button class="home-anon__button-search" type="submit">
+            <img class="home-anon__button-icon" src="../static/assets/desktop/icon-search.svg" width="24" height="24"></span>
           </button>
         </a>
       </form>
