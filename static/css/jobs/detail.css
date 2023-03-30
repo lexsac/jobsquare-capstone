@@ -1,0 +1,84 @@
+@import url('main.css');
+
+/* ------------------------- */
+/* Job Details styling */
+/* ------------------------- */
+
+.job__info {
+    display: flex;
+    flex-direction: column;
+    margin-inline: 1.5rem;
+    gap: 1.5rem;
+}
+
+.company__logo {
+    margin-bottom: 1.5rem;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 1px solid hsl(var(--secondary-light-grey));
+    flex: 1;
+    border-radius: 6px;
+}
+
+.company__title {
+    margin-bottom: 1.5rem;
+    color: hsl(var(--primary-very-dark-blue));
+}
+
+.company__button-view {
+    margin-bottom: 2rem;
+}
+
+.company__details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 43.0625rem;
+    margin-inline: auto;
+    width: 100%;
+}
+
+.company__details, .job__details {
+    background-color: hsl(var(--secondary-white));
+    padding-inline: 1.5rem;
+    border-radius: 5px;
+}
+
+.job__details {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    padding-inline: 1.5rem;
+    max-width: 43.0625rem;
+    margin-inline: auto;
+    position: relative;
+}
+
+.job__details > .job__location {
+    margin-bottom: 3.375rem;
+}
+
+.job__apply-view {
+    width: 100px;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+}
+
+.job__description {
+    color: hsl(var(--secondary-dark-grey));
+}
+
+.job__apply-container-bottom {
+    margin-top: 4rem; 
+    background-color: hsl(var(--secondary-white));
+}
+
+/* Tablet */
+@media (min-width: 44em) {
+    
+}
+
+/* Desktop */
+@media (min-width: 60em) { 
+
+}
+
