@@ -3,8 +3,8 @@
 {% block content %}
 
   <!-- Job filtering form -->
-  <div class="job-filter">
-    <div>
+  <section class="job-filter__section">
+    <div class="job-filter">
       <form action="/update" class="job-filter__form" method="POST">
         <div class="job-filter__category" id="job-filter__category">
           <img src="../static/assets/desktop/icon-search-violet.svg" height="24" width="24" class="job-filter__icon-category" id="job-filter__icon-category">
@@ -16,7 +16,7 @@
             </datalist>
         </div>
         
-        <div class="job-filter__location" id="job-filter__location">
+        <div class="job-filter__location">
           <img src="../static/assets/desktop/icon-location.svg" height="24" width="17" class="job-filter__icon-location" id="job-filter__icon-location">
           <input type="text" name="location-search" id="location-search" list="location-search-options" placeholder="Location..." class="job-filter__input">
             <datalist id="location-search-options">
@@ -26,7 +26,7 @@
             </datalist>
         </div>
   
-        <div class="job-filter__company" id="job-filter__company">
+        <div class="job-filter__company modal-only">
           <input type="text" name="company-search" id="company-search" list="company-search-options" placeholder="Company..." class="job-filter__input">
           <datalist id="company-search-options">
             {% for company in companies %}
@@ -35,7 +35,7 @@
           </datalist>
         </div>
   
-        <div class="job-filter__experience-level" id="job-filter__experience-level">
+        <div class="job-filter__experience-level modal-only">
           <input type="text" name="experience-level-search" id="experience-level-search" list="experience-level-search-options" placeholder="Experience level..." class="job-filter__input">
           <datalist id="experience-level-search-options">
             {% for experience_level in experience_levels %}
@@ -44,121 +44,132 @@
           </datalist>
         </div>
 
-        <!-- Filter icon, populates on mobile/tablet only -->
-        <button class="job-filter__button-filter" type="submit" id="job-filter__button-filter">
-          <img class="job-filter__icon-filter" src="../static/assets/mobile/icon-filter.svg" width="20" height="20"></span>
-        </button>
-      
-        <!-- Search button, populates on mobile only -->
-        <button class="job-filter__button-mobile" type="submit" id="job-filter__button-mobile">
-          <img class="job-filter__icon-search" src="../static/assets/desktop/icon-search.svg" width="24" height="24"></span>
-        </button>
+        <div class="job-filter__buttons">
+          <!-- Filter icon, populates on mobile/tablet only -->
+          <img class="job-filter__icon-filter" id="job-filter__icon-filter" src="../../../static/assets/mobile/icon-filter.svg" width="20" height="20"></img>
+        
+          <!-- Search icon button, populates on mobile only -->
+          <button class="job-filter__button-search-mobile" type="submit" id="job-filter__button-mobile">
+            <img class="job-filter__icon-search" src="../../../static/assets/desktop/icon-search.svg" width="24" height="24"></span>
+          </button>
 
-        <!-- Search icon, populates on tablet/desktop only -->
-        <button type="submit" class="job-filter__button | button-dark" id="job-filter__button-mobile">Search</button>
+          <!-- Search button, populates on tablet/desktop only -->
+          <button type="submit" class="job-filter__button-search | button-dark" id="job-filter__button">Search</button>
+        </div>
       </form> 
-      
-      <!-- Filter modal for when filter icon is clicked, populates on mobile/tablet only -->
-      <div class="job-filter__modal-overlay" id="job-filter__modal-overlay">
-        <form action="/update" class="job-filter__form" method="POST">
-          <div class="job-filter__location">
-            <input type="text" name="location-search" id="location-search" list="location-search-options" placeholder="Location..." class="job-filter__input">
-              <datalist id="location-search-options">
-                {% for location in locations %}
-                <option value="{{ location.name }}">
-                {% endfor %}
-              </datalist>
-          </div>
-    
-          <div class="job-filter__company" id="job-filter__company">
-            <input type="text" name="company-search" id="company-search" list="company-search-options" placeholder="Company..." class="job-filter__input">
-            <datalist id="company-search-options">
-              {% for company in companies %}
-              <option value="{{ company.name }}">
-              {% endfor %}
-            </datalist>
-          </div>
-    
-          <div class="job-filter__experience-level" id="job-filter__experience-level">
-            <input type="text" name="experience-level-search" id="experience-level-search" list="experience-level-search-options" placeholder="Experience level..." class="job-filter__input">
-            <datalist id="experience-level-search-options">
-              {% for experience_level in experience_levels %}
-              <option value="{{ experience_level.name }}">
-              {% endfor %}
-            </datalist>
-          </div>
-  
-          <button type="submit" class="job-filter__button | button-dark" id="job-filter__button-mobile">Search</button>
-        </form>
-      </div>
 
       <!-- Job filter selections, populate below the form inputs -->
       <div class="job-filter__selections">
         {% if user.category_id %}
           <p>{{ user.category.name }}</p>
           <form method="POST" action="/delete/category">
-            <button type="submit">Delete</button>
+            <button class="job-filter__button-delete">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </form>
         {% endif %}
-  
+
         {% if user.location_id %}
           <p>{{ user.location.name }}</p>
           <form method="POST" action="/delete/location">
-            <button type="submit">Delete</button>
+            <button class="job-filter__button-delete">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </form>
         {% endif %}
-  
+
         {% if user.company_id %}
           <p>{{ user.company.name }}</p>
           <form method="POST" action="/delete/company">
-            <button type="submit">Delete</button>
+            <button class="job-filter__button-delete">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </form>
         {% endif %}
-  
+
         {% if user.experience_level_id %}
           <p>{{ user.experience_level.name }}</p>
           <form method="POST" action="/delete/experience_level">
-            <button type="submit">Delete</button>
+            <button class="job-filter__button-delete">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </form>
         {% endif %}
-      </div>
+      </div> <!-- Ends div with class="job-filter__selections" -->
+    </div> <!-- Ends div with class="job-filter" -->
+
+    <!-- Job filter modal, populates on mobile/tablet only -->
+    <div class="job-filter__modal-overlay" id="job-filter__modal-overlay">
+      <form action="/update" class="job-filter__form-modal" method="POST">
+        <div class="job-filter__location-modal" id="job-filter__location-modal">
+          <input type="text" name="location-search" id="location-search" list="location-search-options" placeholder="Location..." class="job-filter__input">
+            <datalist id="location-search-options">
+              {% for location in locations %}
+              <option value="{{ location.name }}">
+              {% endfor %}
+            </datalist>
+        </div>
+  
+        <div class="job-filter__company-modal" id="job-filter__company-modal">
+          <input type="text" name="company-search" id="company-search" list="company-search-options" placeholder="Company..." class="job-filter__input">
+          <datalist id="company-search-options">
+            {% for company in companies %}
+            <option value="{{ company.name }}">
+            {% endfor %}
+          </datalist>
+        </div>
+  
+        <div class="job-filter__experience-level-modal" id="job-filter__experience-level-modal">
+          <input type="text" name="experience-level-search" id="experience-level-search" list="experience-level-search-options" placeholder="Experience level..." class="job-filter__input">
+          <datalist id="experience-level-search-options">
+            {% for experience_level in experience_levels %}
+            <option value="{{ experience_level.name }}">
+            {% endfor %}
+          </datalist>
+        </div>
+
+        <button type="submit" class="job-filter__button-modal | button-dark" id="job-filter__button">Filter Results</button>
+      </form>
     </div>
-  </div>
+        
+
+  </section>
 
   <!-- Job list, populates with filtered logic -->
-  <div class="job__list">
+  <section class="job__list">
     <div class="job__cards">
     {% if jobs %}
-        {% for job in jobs %}
-          <a href="/jobs/{{ job.id }}">
-            <div class="job__card">
-              <div class="job__image">
-                <img class="job__logo" height="48" width="108" src='{{job.company.logo_img}}'>
-              </div>
-              <div class="job__text">
-                <p class="job__posted">Posted {{ job.created_at }}</p>
-                <h3 class="job__title">{{ job.name }}</h3>
-                <p class="job__company">{{ job.company.name }}</p>
-                <p class="job__location">{{ job.location.name }}</p>
-                <p class="job__category">{{ job.category.name }}</p>
-              </div>
-              <form method="POST" action="/jobs/{{ job.id }}/like">
-                <button class="job__button-like">
-                  {% if job.id in liked_jobs %}
-                  <i class="fa-solid fa-bookmark"></i> 
-                  {% else %}
-                  <i class="fa-regular fa-bookmark"></i> 
-                  {% endif %}
-                </button>
-              </form>
+      {% for job in jobs %}
+        <a href="/jobs/{{ job.id }}">
+          <div class="job__card">
+            <div class="job__image">
+              <img class="job__logo" height="48" width="108" src='{{job.company.logo_img}}'>
             </div>
-          </a>
-        {% endfor %}
-        </div>
+            <div class="job__text">
+              <p class="job__posted">Posted {{ job.created_at }}</p>
+              <h3 class="job__title">{{ job.name }}</h3>
+              <p class="job__company">{{ job.company.name }}</p>
+              <p class="job__location">{{ job.location.name }}</p>
+              <p class="job__category">{{ job.category.name }}</p>
+              <p class="job__category">{{ job.experience_level.name }}</p>
+            </div>
+            <form method="POST" action="/jobs/{{ job.id }}/like">
+              <button class="job__button-like">
+                {% if job.id in liked_jobs %}
+                <i class="fa-solid fa-bookmark"></i> 
+                {% else %}
+                <i class="fa-regular fa-bookmark"></i> 
+                {% endif %}
+              </button>
+            </form>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
     {% else %}
-        <h1>No jobs matches</h1>
-        <p>Uh oh...try changing your preferences to find a match. Don't give up just yet!</p>
+      <h1>No jobs matches</h1>
+      <p>Uh oh...try changing your preferences to find a match. Don't give up just yet!</p>
     {% endif %}
-  </div>
+  </section>
   
 {% endblock %}
