@@ -4,9 +4,9 @@
   <div>
     <div>
       <div>
-        <h1>Your saved jobs</h1>
         {% if likes %}
           <div class="job__cards">
+            <h1>Your saved jobs</h1>
             {% for job in likes %}
               <a href="/jobs/{{ job.id }}">
                 <div class="job__card">
