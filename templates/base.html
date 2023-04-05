@@ -10,14 +10,13 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="/static/css/jobs/detail.css">
-  <link rel="stylesheet" href="/static/css/jobs/jobs-anon.css">
   <link rel="stylesheet" href="/static/css/jobs/jobs.css">
   <link rel="stylesheet" href="/static/css/users/likes.css">
   <link rel="stylesheet" href="/static/css/users/login.css">
   <link rel="stylesheet" href="/static/css/users/signup.css">
   <link rel="stylesheet" href="/static/css/404.css">
   <link rel="stylesheet" href="/static/css/base.css">
-  <link rel="stylesheet" href="/static/css/home-anon.css">
+  <link rel="stylesheet" href="/static/css/home.css">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,29 +25,30 @@
 </head>
 
 <body>
-    <nav class="navigation">
+    <nav class="navigation" id="navigation">
       <div class="navigation__items">
         <a href="/" class="navigation__logo">jobsquare</a>
-        <div class="navigation__toggle">
-          <button class="navigation__toggle-btn">
+        <div class="navigation__toggle" id="navigation__toggle">
+          <button class="navigation__toggle-button" id="navigation__toggle-button">
             <span class="navigation__toggle-bar"></span>
             <span class="navigation__toggle-bar"></span>
             <span class="navigation__toggle-bar"></span>
           </button>
         </div>
       </div>
-      <ul class="navigation__links">
+      <ul class="navigation__links" id="navigation__links">
         {% if not g.user %}
         <li><a class="navigation__link" href="/jobs">Jobs</a></li>
         <li><a class="navigation__link" href="/signup">Sign up</a></li>
         <li><a class="navigation__link" href="/login">Log in</a></li>
         {% else %}
+        <li><a class="navigation__link" href="/jobs">Jobs</a></li>
         <li><a class="navigation__link" href="/likes">Saved Jobs</a></li>
         <li><a class="navigation__link" href="/logout">Log out</a></li>
         {% endif %}
       </ul>
     </nav>
-    <div class="navigation__modal-overlay"></div>
+    <div class="navigation__modal-overlay" id="navigation__modal-overlay"></div>
 
   
   {% block content %}
