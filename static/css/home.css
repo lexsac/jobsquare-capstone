@@ -1,0 +1,60 @@
+@import url('base.css');
+
+/* ------------------------- */
+/* Homepage styling */
+/* ------------------------- */
+
+.home__section {
+    margin-inline: auto;
+}
+
+.home__text {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.home__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.home__title {
+    margin-bottom: 1.5rem;
+    font-size: var(--fs-h1);
+}
+
+.home__description {
+    width: 60%;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+    font-size: var(--fs-body);
+}
+
+.home__title-span {
+    display: block;
+}
+
+/* Tablet */
+@media (min-width: 44em) {
+    .home__title {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+    }
+    
+    .home__description {
+        font-size: 1.25rem;
+    }
+}
+
+/* Desktop */
+@media (min-width: 60em) { 
+    .home__title {
+        font-size: 3.5rem;
+    }
+    
+    .home__description {
+        font-size: 1.5rem;
+        width: 45%;
+    }
+}
