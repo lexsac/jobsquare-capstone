@@ -5,3 +5,4 @@ key.py
 .DS_Store
 static/.DS_Store
 static/css/style.css
+get-pip.py
