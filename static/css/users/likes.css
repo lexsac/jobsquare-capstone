@@ -12,7 +12,6 @@
     font-size: var(--fs-h1);
     margin-top: 2rem;
     margin-bottom: 1rem;
-    color: hsl(var(--primary-very-dark-blue));
 }
 
 .likes__description {
@@ -21,30 +20,9 @@
     color: hsl(var(--primary-very-dark-blue));
 }
 
-/* ------------------------- */
-/* User Profile Edit styling */
-/* ------------------------- */
-
-.edit__text {
-    text-align: center;
-}
-
-.edit__title {
-    font-size: var(--fs-h1);
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: hsl(var(--primary-very-dark-blue));
-}
-
-.edit__description {
-    font-size: var(--fs-body);
-    margin-bottom: 1rem;
-    color: hsl(var(--primary-very-dark-blue));
-}
-
-.edit__password-input > * {
-    width: 90%;
-    border: none;
-    border-radius: 5px;
-    padding: 1rem;
+/* Tablet */
+@media (min-width: 44em) {
+    .likes__title {
+        font-size: 2.5rem;
+    }
 }
