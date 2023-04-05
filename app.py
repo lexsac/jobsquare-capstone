@@ -30,7 +30,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 app.app_context().push()
 
@@ -204,38 +204,6 @@ def delete_attribute(attribute):
 
     return redirect ('/jobs')
 
-
-# @app.route('/profile', methods=["GET", "POST"])
-# def edit_profile():
-#     """Update profile for current user."""
-
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
-
-#     user = g.user
-#     form = UserEditForm(obj=user)
-
-#     if form.validate_on_submit():
-#         if User.authenticate(user.username, form.password.data):
-#             # location_id = Location.query.filter_by(name=form.location.data).first().id
-#             # category_id = Category.query.filter_by(name=form.category.data).first().id
-#             # experience_level_id = Experiencelevel.query.filter_by(name=form.experience_level.data).first().id
-#             # company_id = Company.query.filter_by(name=form.company.data).first().id
-
-#             # user.location_id = location_id,
-#             # user.category_id = category_id,
-#             # user.experience_level_id = experience_level_id,
-#             # user.company_id = company_id
-
-#             db.session.commit()
-#             return redirect("/")
-
-#         flash("Wrong password, please try again.", 'danger')
-
-#     return render_template('users/edit.html', form=form, user_id=user.id)
-
-
 ##############################################################################
 # Jobs routes:
 
@@ -276,22 +244,7 @@ def show_jobs():
             companies=companies, locations=locations, experience_levels=experience_levels)
 
     else:
-        filters = {}
-        filters['category'] = request.args.get('category-search', '')
-        filters['location'] = request.args.get('location-search', '')
-        filters['company'] = request.args.get('company-search', '')
-        filters['experience_level'] = request.args.get('experience-level-search', '')
-
-        query_filters = []
-        for filter_name, filter_value in filters.items():
-            if filter_value:
-                filter_obj = getattr(Job, filter_name).has(name=filter_value)
-                query_filters.append(filter_obj)
-
-        jobs = Job.query.filter(and_(*query_filters)).all()
-
-        return render_template('/jobs/jobs-anon.html', jobs=jobs, categories=categories, locations=locations,
-                            companies=companies, experience_levels=experience_levels)
+        return redirect('/')
 
 
 @app.route('/jobs/<int:job_id>', methods=["GET"])
@@ -338,7 +291,7 @@ def homepage():
 
     else:
         categories = Category.query.order_by(Category.name.asc()).all()
-        return render_template('home-anon.html', categories=categories)
+        return render_template('home.html', categories=categories)
 
 @app.errorhandler(404)
 def page_not_found(e):
