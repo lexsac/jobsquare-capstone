@@ -59,13 +59,10 @@ with app.app_context():
 
             for company in response['results']:
                 with app.app_context():
-                    if Company.query.filter_by(name=company['name']).first() == None:
-                        co = Company(name=company['name'], logo_img=company['refs']['logo_image'])
-                        db.session.add(co)
-                        db.session.commit()
-                    else: 
+                    if Company.query.filter_by(name=company['name']).first():
                         co = Company.query.filter_by(name=company['name']).first()
                         co.logo_img = company['refs']['logo_image']
+                        co.company_url = company['refs']['landing_page']
                         db.session.add(co)
                         db.session.commit()
 
