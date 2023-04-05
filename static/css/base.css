@@ -1,5 +1,3 @@
-@import url('main.css');
-
 /* ------------------------- */
 /* Custom properties */
 /* ------------------------- */
@@ -154,11 +152,12 @@ more descriptive text  */
     padding-inline: 1.5rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .button-dark:hover, .button-dark:focus {
     background-color: hsl(var(--primary-light-violet));
-    cursor: pointer;
 }
 
 .button-light {
@@ -171,11 +170,11 @@ more descriptive text  */
     padding-top: 1rem;
     padding-bottom: 1rem;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .button-light:hover, .button-light:focus {
     background-color: hsla(var(--primary-light-violet), 0.35);
-    cursor: pointer;
 }
 
 /* ------------------------- */
@@ -242,17 +241,17 @@ strong {
     
     .navigation__links {
         display: none;
+        position: absolute;
     }
 
     .navigation__links.open {
+        position: absolute;
         display: flex;
         flex-direction: column;
         gap: 2rem;
         margin-top: 2.5rem;
         color: hsl(var(--primary-very-dark-blue));
-        position: absolute;
         right: 20%;
-        z-index: 1000;
         text-align: left;
     }
 
@@ -262,11 +261,10 @@ strong {
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: hsla(var(--primary-midnight), 0.6); /* semi-transparent black color */
-        z-index: 100; /* set a high z-index to make sure it's on top of other elements */
+        background-color: hsla(var(--primary-midnight), 0.6); 
     }
 
-    .navigation__toggle-btn {
+    .navigation__toggle-button {
         display: block;
         position: absolute;
         top: 40px;
@@ -290,35 +288,34 @@ strong {
         right: 0;
         bottom: 0;
         width: 60%;
-        z-index: 200;
         border-radius: 5px;
     }
 
-    .navigation__toggle-btn.open .navigation__toggle-bar {
+    .navigation__toggle-button.open .navigation__toggle-bar {
         transform: rotate(0deg);
         transition: transform .3s;
         background-color: hsl(var(--primary-violet));
     }
 
-    .navigation__toggle-btn.open .navigation__toggle-bar:first-child {
+    .navigation__toggle-button.open .navigation__toggle-bar:first-child {
         transform: rotate(45deg) translate(4px, 4px);
         transition: transform .3s;
         background-color: hsl(var(--primary-violet));
     }
 
-    .navigation__toggle-btn.open .navigation__toggle-bar:nth-child(2) {
+    .navigation__toggle-button.open .navigation__toggle-bar:nth-child(2) {
         opacity: 0;
         transition: opacity .3s;
         background-color: hsl(var(--primary-violet));
     }
 
-    .navigation__toggle-btn.open .navigation__toggle-bar:last-child {
+    .navigation__toggle-button.open .navigation__toggle-bar:last-child {
         transform: rotate(-45deg) translate(4px, -5px);
         transition: transform .3s;
         background-color: hsl(var(--primary-violet));
     }
 
-    .navigation__toggle-btn:focus {
+    .navigation__toggle-button.open:focus {
         outline: none;
     }
 }
@@ -331,7 +328,7 @@ strong {
         justify-content: space-between;
     }
     
-    .navigation__toggle-btn {
+    .navigation__toggle-button {
         display: none;
     }
 
