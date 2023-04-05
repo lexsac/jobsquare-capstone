@@ -4,49 +4,52 @@
 
   <div>
     <div>
-      <h1>Join Job Board today</h1>
-      <p>Sign up now to create your account, set preferences, and view your personalized list of job postings.</p>
+      <div class="signup__text">
+        <h1 class="signup__title">Join Jobsquare today</h1>
+        <p class="signup__description">Sign up now to create your account, set preferences, and view your personalized list of job postings.</p>  
+      </div>
 
-      <form method="POST">
+      <form method="POST" class="signup__form">
         {{ form.hidden_tag() }}
         {% for field in form if field.widget.input_type != 'hidden' %}
           {% for error in field.errors %}
             <span>{{ error }}</span>
           {% endfor %}
+
           {% if field.name == 'first_name' %}
-            <div>
+            <div class="signup__form-item">
               {{ field.label(class="form-label") }}
-              {{ field(class="form-control") }}
+              {{ field(class="form-control signup__form-input") }}
             </div>
-              {% elif field.name == 'last_name' %}
-                <div>
-                  {{ field.label(class="form-label") }}
-                  {{ field(class="form-control") }}
-                </div>
-              {% elif field.name == 'email' %}
-                <div>
-                  {{ field.label(class="form-label") }}
-                  {{ field(class="form-control") }}
-                </div>
-              {% elif field.name == 'username' %}
-                <div>
-                  {{ field.label(class="form-label") }}
-                  {{ field(class="form-control") }}
-                </div>
-              {% elif field.name == 'password' %}
-                <div>
-                  {{ field.label(class="form-label") }}
-                  {{ field(class="form-control") }}
-                </div>
-              {% else %}
-                <div>
-                  {{ field.label(class="form-label") }}
-                  {{ field(class="form-control, form-select") }}
-                </div>
-              {% endif %}
+          {% elif field.name == 'last_name' %}
+            <div class="signup__form-item">
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control signup__form-input") }}
+            </div>
+          {% elif field.name == 'email' %}
+            <div class="signup__form-item">
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control signup__form-input") }}
+            </div>
+          {% elif field.name == 'username' %}
+            <div class="signup__form-item">
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control signup__form-input") }}
+            </div>
+          {% elif field.name == 'password' %}
+            <div class="signup__form-item">
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control signup__form-input") }}
+            </div>
+          {% else %}
+            <div class="signup__form-item">
+              {{ field.label(class="form-label") }}
+              {{ field(class="form-control form-select signup__form-input") }}
+            </div>
+          {% endif %}
         {% endfor %}
 
-        <a href="/"><button>Sign me up!</button></a>
+        <a href="/"><button class="button-dark">Sign me up!</button></a>
       </form>
     </div>
   </div>

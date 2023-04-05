@@ -5,8 +5,10 @@
     <div>
       <div>
         {% if likes %}
+          <div class="likes__text"> 
+            <h1 class="likes__title">Your saved jobs</h1>
+          </div>
           <div class="job__cards">
-            <h1>Your saved jobs</h1>
             {% for job in likes %}
               <a href="/jobs/{{ job.id }}">
                 <div class="job__card">

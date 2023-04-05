@@ -131,8 +131,6 @@
         <button type="submit" class="job-filter__button-modal | button-dark" id="job-filter__button">Filter Results</button>
       </form>
     </div>
-        
-
   </section>
 
   <!-- Job list, populates with filtered logic -->
@@ -140,30 +138,29 @@
     <div class="job__cards">
     {% if jobs %}
       {% for job in jobs %}
-        <a href="/jobs/{{ job.id }}">
-          <div class="job__card">
-            <div class="job__image">
-              <img class="job__logo" height="48" width="108" src='{{job.company.logo_img}}'>
-            </div>
-            <div class="job__text">
-              <p class="job__posted">Posted {{ job.created_at }}</p>
-              <h3 class="job__title">{{ job.name }}</h3>
-              <p class="job__company">{{ job.company.name }}</p>
-              <p class="job__location">{{ job.location.name }}</p>
-              <p class="job__category">{{ job.category.name }}</p>
-              <p class="job__category">{{ job.experience_level.name }}</p>
-            </div>
-            <form method="POST" action="/jobs/{{ job.id }}/like">
-              <button class="job__button-like">
-                {% if job.id in liked_jobs %}
-                <i class="fa-solid fa-bookmark"></i> 
-                {% else %}
-                <i class="fa-regular fa-bookmark"></i> 
-                {% endif %}
-              </button>
-            </form>
+        <div class="job__card">
+          <div class="job__image">
+            <img class="job__logo" height="48" width="108" src='{{job.company.logo_img}}'>
           </div>
-        </a>
+          <div class="job__text">
+            <p class="job__posted">Posted {{ job.created_at }}</p>
+            <h3 class="job__title">{{ job.name }}</h3>
+            <p class="job__company">{{ job.company.name }}</p>
+            <p class="job__location">{{ job.location.name }}</p>
+          </div>
+          <form method="POST" action="/jobs/{{ job.id }}/like">
+            <button class="job__button-like" id="job__button-like">
+              {% if job.id in liked_jobs %}
+              <i class="fa-solid fa-bookmark"></i> 
+              {% else %}
+              <i class="fa-regular fa-bookmark"></i> 
+              {% endif %}
+            </button>
+          </form>
+          <a href="/jobs/{{ job.id }}">
+            <button class="job__button-view | button-light">View Job</button>
+          </a>
+        </div>
       {% endfor %}
     </div>
     {% else %}

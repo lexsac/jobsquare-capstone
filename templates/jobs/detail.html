@@ -5,14 +5,24 @@
     <div class="company__details">
         <img class="company__logo" height="24" width="54" src='{{job.company.logo_img}}'>
         <h2 class="company__title">{{job.company.name}}</h2>
-        <a href="#">
+        {% if job.company.company_url %}
+        <a href='{{job.company.company_url}}'>
             <button class="company__button-view | button-light">View company</button>
         </a>
+        {% endif %}
     </div>
     <div class="job__details">
         <div>
             <p class="job__posted">Posted {{ job.created_at }}</p>
-            <i class="fa-regular fa-bookmark | job__button-like"></i>
+            <form method="POST" action="/jobs/{{ job.id }}/like">
+                <button class="job__button-like" id="job__button-like">
+                    {% if job.id in liked_jobs %}
+                    <i class="fa-solid fa-bookmark"></i> 
+                    {% else %}
+                    <i class="fa-regular fa-bookmark"></i> 
+                    {% endif %}
+                </button>
+            </form>
         </div>
         <h2 class="job__title">{{ job.name }}</h2>
         <p class="job__location">{{ job.location.name }}</p>
@@ -22,7 +32,7 @@
         {{ job.description|safe }}
     </div>
     <div class="job__apply-container-bottom">
-        <a href="{{ job.landing_page_url }}" target="_blank">
+        <a href="{{ job.landing_page_url }}">
             <button class="job__apply-view-bottom | button-dark">Apply Now</button>
         </a>
     </div>

@@ -2,27 +2,25 @@
 {% block body_class %}onboarding{% endblock %}
 {% block content %}
 
-  <div> 
-    <div>
-      <h1>Welcome back!</h1>
-      <p>Log in below to access your account, see your saved jobs, and more.</p>
-
-      <form method="POST">
-        {{ form.hidden_tag() }}
-
-        {% for field in form if field.widget.input_type != 'hidden' %}
-          {% for error in field.errors %}
-            <span>{{ error }}</span>
-          {% endfor %}
-          <div>
-            {{ field.label(class="form-label") }}
-            {{ field(class="form-control") }}
-          </div>
-        {% endfor %}
-
-        <a href="/"><button>Login</button></a>
-      </form>
+  <section class="login__section">
+    <div class="login__text">
+      <h1 class="login__title">Welcome back!</h1>
+      <p class="login__description">Log in below to access your account, see your saved jobs, and more.</p>  
     </div>
-  </div>
+    <form method="POST" class="login__form">
+      {{ form.hidden_tag() }}
+
+      {% for field in form if field.widget.input_type != 'hidden' %}
+        {% for error in field.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+        
+        {{ field.label(class="form-label") }}
+        {{ field(class="form-control login__form-input") }}
+      {% endfor %}
+
+      <a href="/"><button class="button-dark">Login</button></a>
+    </form>
+  </section>
 
 {% endblock %}
