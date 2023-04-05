@@ -1,1 +1,56 @@
 @import url('../base.css');
+
+.signup__text {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.signup__title {
+    margin-bottom: 1.5rem;
+    font-size: var(--fs-h1);
+}
+
+.signup__description {
+    font-size: var(--fs-body);
+    margin-bottom: 1.5rem;
+    max-width: 50%;
+    margin-inline: auto;
+}
+
+.signup__section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup__form-input {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: none;
+    padding-inline: 1rem;
+    margin-bottom: 1rem;
+}
+
+.signup__form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Tablet */
+@media (min-width: 44em) {
+    .signup__title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .signup__description {
+        font-size: 1.25rem;
+    }
+}
