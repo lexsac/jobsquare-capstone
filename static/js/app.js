@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    ////////// Navigation mobile nav logic //////////
-
-    const navigation = document.querySelector('.navigation');
-    const navigationToggle = document.querySelector('.navigation__toggle');
-    const navigationToggleBtn = document.querySelector('.navigation__toggle-btn');
-    const navigationLinks = document.querySelector('.navigation__links');
-    const navigationModalOverlay = document.querySelector('.navigation__modal-overlay');
+    //////////////////////////////////////////////
+    // Mobile nav logic
+    const navigation = document.querySelector('#navigation');
+    const navigationToggle = document.querySelector('#navigation__toggle');
+    const navigationToggleBtn = document.querySelector('#navigation__toggle-button');
+    const navigationLinks = document.querySelector('#navigation__links');
+    const navigationModalOverlay = document.querySelector('#navigation__modal-overlay');
 
     // Add click event listener to the toggle button
-    navigationToggle.addEventListener('click', function () {
+    navigationToggle.addEventListener('click', () => {
         // Toggle the "open" class on the navigation
         navigation.classList.toggle('open');
         // Toggle the "open" class on background dark overlay
@@ -23,18 +23,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    ////////// Job like/unlike logic //////////
-
-    const likeButton = document.querySelector('job__button-like');
+    //////////////////////////////////////////////
+    // Job like/unlike logic 
+    const likeButtons = document.querySelectorAll('#job__button-like');
 
     // Add click event listener to the like button
-    likeButton.addEventListener('click', function () {
-        likeButton.classList.remove('.fa-regular fa-bookmark');
-        likeButton.classList.add('.fa-solid fa-bookmark')
-    })
+    likeButtons.forEach(likeButton => {
+      likeButton.addEventListener('clickpress', () => {
+          likeButton.classList.remove('fa-regular', 'fa-bookmark');
+          likeButton.classList.add('fa-solid', 'fa-bookmark');
+      });
+    });
 
-    ////////// Job filter form logic //////////
 
+    //////////////////////////////////////////////
+    // Job filter form logic 
     const categorySearchInput = document.querySelector('#category-search');
     const categorySearchOptions = document.querySelectorAll('#search-options option');
     const autocompleteOptions = Array.from(categorySearchOptions).map(option => option.value);
@@ -60,18 +63,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    ////////// Job filter mobile logic //////////
+     //////////////////////////////////////////////
+    // Job filter form mobile logic 
+    const filterModalOverlay = document.querySelector('#job-filter__modal-overlay');
+    const filterIcon = document.querySelector('#job-filter__icon-filter');
 
-    const filterIcon = document.querySelector('#job__filtering-mobile-btn');
-    const jobFilterModal = document.querySelector('#job__filter-modal');
-    const jobFiltersMobile = document.querySelectorAll('#job_filter-mobile')
-
-    // Add click event listener to the mobile filter icon
-    filterIcon.addEventListener('click', function () {
-      // Toggle 'open' class
-      jobFilterModal.classList.toggle('open');
-      // Toggle 'open' class on modal with filter options
-      jobFiltersMobile.classList.toggle('open');
+    filterIcon.addEventListener('click', () => {
+      filterModalOverlay.classList.toggle('open');
     })
+
 });
   
