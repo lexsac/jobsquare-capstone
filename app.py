@@ -290,7 +290,8 @@ def homepage():
         return redirect ('/jobs')
 
     else:
-        categories = Category.query.order_by(Category.name.asc()).all()
+        categories = Category.query.get(1)
+        # categories = Category.query.order_by(Category.name.asc()).all()
         return render_template('home.html', categories=categories)
 
 @app.errorhandler(404)
